@@ -1,6 +1,20 @@
-**/*.glb
+# Arquivos não-web
 **/*.CAP
 **/*.exe
-**/*.zip
-images/
-animação 3d/
+
+# Excluir todos os GLBs por padrão
+**/*.glb
+
+# Re-incluir apenas os 3 modelos usados pelo site principal
+!animação 3d/xenocat1.glb
+!animação 3d/xenocat2.glb
+!animação 3d/XEBOCAT3.glb
+
+# Imagens não relacionadas ao site
+images/TUF-GAMING-B550-PRO-ASUS-3636/
+images/TUF-GAMING-B550-PRO-ASUS-3636.zip
+images/(1) Grok _ X.html
+images/(1) Grok _ X_files/
+
+# Pasta com repositório git embutido
+animação 3d/XANO CAT/
