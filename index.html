@@ -1,0 +1,5053 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xeno Cat | $XENO on Solana</title>
+    <meta
+      name="description"
+      content="Xeno Cat ($XENO) — O meme coin alienígena na Solana. Compre, faça stake e participe da colônia."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
+    ></script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import {
+        getFirestore,
+        doc,
+        getDoc,
+        setDoc,
+        onSnapshot,
+        increment,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCMwo7XDAFVSD5k7Vm3dno2VrWneXzuydM",
+        authDomain: "xeno-c5b67.firebaseapp.com",
+        projectId: "xeno-c5b67",
+        storageBucket: "xeno-c5b67.firebasestorage.app",
+        messagingSenderId: "883347426245",
+        appId: "1:883347426245:web:ea6374b583676ff81219ac",
+        measurementId: "G-NVEFGXDB8C",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // Chave local por sess�o para evitar curtir 2x
+      const liked = JSON.parse(localStorage.getItem("xeno_liked") || "{}");
+
+      document.querySelectorAll(".panel-curtir").forEach((btn) => {
+        const id = btn.dataset.criatura.toLowerCase().replace(/\s+/g, "-");
+        const ref = doc(db, "likes", id);
+
+        // Escuta em tempo real
+        onSnapshot(ref, (snap) => {
+          const count = snap.exists() ? snap.data().count || 0 : 0;
+          const isLiked = !!liked[id];
+          btn.innerHTML = isLiked
+            ? `&#9829; Curtido! <span style="font-size:0.75em;opacity:0.85">${count}</span>`
+            : `&#9829; Curtir <span style="font-size:0.75em;opacity:0.85">${count}</span>`;
+          btn.classList.toggle("curtido", isLiked);
+        });
+
+        btn.addEventListener("click", async () => {
+          if (liked[id]) return; // j� curtiu
+          liked[id] = true;
+          localStorage.setItem("xeno_liked", JSON.stringify(liked));
+          await setDoc(ref, { count: increment(1) }, { merge: true });
+        });
+      });
+    </script>
+
+    <style>
+      :root {
+        /* === XENO CAT — Galaxy Purple Theme === */
+        --bg: #05030a;
+        --bg-card: rgba(18, 10, 26, 0.85);
+        --bg-elevated: #1c1228;
+        --accent: #c47bb8;
+        --accent-dim: #8b4a9b;
+        --accent-glow: rgba(196, 123, 184, 0.45);
+        --accent-red: #e8a0e0;
+        --accent-red-glow: rgba(232, 160, 224, 0.4);
+        --primary: #c47bb8;
+        --primary-bright: #e8a0e0;
+        --glow: #d48ac8;
+        --text: #ffffff;
+        --text-secondary: #c8b4d8;
+        --text-muted: #8a759a;
+        --border: #000000;
+        --border-soft: #2a1a35;
+        --danger: #c47bb8;
+        --radius: 12px;
+        --shadow: 0 0 30px rgba(196, 123, 184, 0.25);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      @keyframes win7aurora {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {a
+          background-position: 0% 50%;
+        }
+      }
+
+      body {
+        font-family: system-ui, -apple-system, "Merriweather", Georgia, serif;
+        background:
+          radial-gradient(
+            ellipse 120% 80% at 50% -10%,
+            #2a0a4e 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 80% 60% at 80% 20%,
+            #1a0a2e 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 90% 70% at 20% 30%,
+            #150820 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 140% 100% at 50% 100%,
+            #05030a 0%,
+            #05030a 100%
+          );
+        background-color: #05030a;
+        color: var(--text);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* Windows 7 aurora glow layers */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 60% 40% at 30% 25%,
+            rgba(138, 74, 155, 0.18) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 50% 35% at 70% 15%,
+            rgba(196, 123, 184, 0.12) 0%,
+            transparent 65%
+          ),
+          radial-gradient(
+            ellipse 80% 30% at 50% 5%,
+            rgba(107, 74, 154, 0.22) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 40% 25% at 15% 60%,
+            rgba(90, 50, 120, 0.1) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 35% 20% at 85% 70%,
+            rgba(196, 123, 184, 0.08) 0%,
+            transparent 60%
+          );
+        background-size: 200% 200%;
+        animation: win7aurora 18s ease infinite;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      /* Subtle light streak */
+      body::after {
+        content: "";
+        position: fixed;
+        top: -20%;
+        left: -10%;
+        width: 120%;
+        height: 55%;
+        background: linear-gradient(
+          108deg,
+          transparent 30%,
+          rgba(196, 123, 184, 0.06) 48%,
+          rgba(232, 160, 224, 0.1) 52%,
+          transparent 70%
+        );
+        transform: rotate(-8deg);
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      a:hover {
+        color: #e8a0e0;
+      }
+
+      /* Header */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(5, 5, 5, 0.92);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 0.85rem 1.5rem;
+      }
+
+      .header-inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .logo {
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .logo img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        filter: drop-shadow(0 0 8px var(--accent-glow));
+      }
+
+      .logo-text h1 {
+        font-size: 1.35rem;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        background: linear-gradient(90deg, #c47bb8, #e8a0e0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        line-height: 1.1;
+        filter: drop-shadow(0 0 8px rgba(196, 123, 184, 0.4));
+      }
+
+      .logo-text span {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        font-weight: 300;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      nav {
+        display: flex;
+        gap: 1.75rem;
+        align-items: center;
+      }
+
+      nav a {
+        color: var(--text);
+        font-size: 0.9rem;
+        font-weight: 400;
+      }
+      nav a:hover {
+        color: var(--accent);
+      }
+
+      /* Dicionário IA — link destaque na nav */
+      .nav-ia {
+        color: var(--accent) !important;
+        font-weight: 700 !important;
+        font-size: 0.82rem !important;
+        border: 1px solid rgba(196, 123, 184, 0.35);
+        border-radius: 20px;
+        padding: 0.25rem 0.75rem;
+        transition: all 0.2s !important;
+        letter-spacing: 0.03em;
+      }
+      .nav-ia:hover {
+        background: rgba(196, 123, 184, 0.12);
+        border-color: var(--accent);
+        box-shadow: 0 0 12px var(--accent-glow);
+        color: var(--primary-bright) !important;
+      }
+
+      /* Diversão — link destaque na nav */
+      .nav-fun {
+        color: #ffb347 !important;
+        font-weight: 700 !important;
+        font-size: 0.82rem !important;
+        border: 1px solid rgba(255, 179, 71, 0.4);
+        border-radius: 20px;
+        padding: 0.25rem 0.75rem;
+        transition: all 0.2s !important;
+        letter-spacing: 0.03em;
+        background: rgba(255, 179, 71, 0.07);
+      }
+      .nav-fun:hover {
+        background: rgba(255, 179, 71, 0.18);
+        border-color: #ffb347;
+        box-shadow: 0 0 14px rgba(255, 179, 71, 0.4);
+        color: #ffd180 !important;
+      }
+
+      /* Seção diversão oculta por padrão */
+      #diversao {
+        display: none;
+      }
+      #diversao.open {
+        display: block;
+        animation: sectionReveal 0.5s ease forwards;
+      }
+      @keyframes sectionReveal {
+        from { opacity: 0; transform: translateY(24px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        padding: 0.65rem 1.25rem;
+        border: 1px solid var(--accent);
+        background: transparent;
+        color: var(--accent);
+        font-family: inherit;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.25s ease;
+        letter-spacing: 0.03em;
+      }
+
+      .btn:hover {
+        background: var(--accent);
+        color: #000;
+        box-shadow: 0 0 20px var(--accent-glow);
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: #000;
+      }
+      .btn-primary:hover {
+        background: #e8a0e0;
+        box-shadow: 0 0 24px var(--accent-glow);
+      }
+
+      .btn-wallet {
+        border-color: var(--accent);
+        font-size: 0.85rem;
+      }
+
+      /* Hero */
+      .hero {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 4.5rem 1.5rem 3.5rem;
+        text-align: center;
+        position: relative;
+      }
+
+      .hero h2 {
+        font-size: clamp(2.2rem, 6vw, 3.8rem);
+        font-weight: 900;
+        background: linear-gradient(90deg, #c47bb8, #e8a0e0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        text-shadow: none;
+        filter: drop-shadow(0 0 18px rgba(196, 123, 184, 0.5));
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.06em;
+      }
+
+      .hero .subtitle {
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        font-weight: 300;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+      }
+
+      .hero p {
+        max-width: 620px;
+        margin: 0 auto 2rem;
+        color: var(--text);
+        font-size: 1.05rem;
+        font-weight: 300;
+      }
+
+      /* Products */
+      .section {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+        color: var(--text);
+      }
+
+      .section-title span {
+        color: var(--accent-red);
+      }
+
+      .section-desc {
+        text-align: center;
+        color: var(--text-muted);
+        margin-bottom: 2.5rem;
+        font-weight: 300;
+      }
+
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1.75rem;
+      }
+
+      .product-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .product-card:hover {
+        border-color: var(--accent-dim);
+        box-shadow: 0 0 24px rgba(57, 255, 20, 0.15);
+        transform: translateY(-4px);
+      }
+
+      .product-img-wrap {
+        position: relative;
+        aspect-ratio: 3/4;
+        overflow: hidden;
+        background: #000;
+      }
+
+      .product-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+
+      .product-card:hover .product-img-wrap img {
+        transform: scale(1.05);
+      }
+
+      .product-body {
+        padding: 1.15rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .product-body h3 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 0.35rem;
+        color: var(--text);
+      }
+
+      .product-price {
+        color: var(--accent-red);
+        font-weight: 700;
+        font-size: 1.15rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .product-desc {
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        font-weight: 300;
+        margin-bottom: 1rem;
+        flex: 1;
+      }
+
+      .product-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .product-actions .btn {
+        flex: 1;
+        padding: 0.55rem 0.6rem;
+        font-size: 0.82rem;
+      }
+
+      /* Modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.85);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+        z-index: 200;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      .modal {
+        background: var(--bg-card);
+        border: 1px solid var(--accent-dim);
+        border-radius: 12px;
+        max-width: 920px;
+        width: 100%;
+        max-height: 92vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 0 40px var(--accent-glow);
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.9rem;
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.6rem;
+        cursor: pointer;
+        line-height: 1;
+        z-index: 10;
+      }
+      .modal-close:hover {
+        color: var(--accent);
+      }
+
+      .modal-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+      }
+
+      @media (max-width: 768px) {
+        .modal-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .modal-gallery {
+        background: #000;
+        padding: 1.25rem;
+      }
+
+      .modal-main-img {
+        width: 100%;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        border-radius: 6px;
+        margin-bottom: 0.75rem;
+      }
+
+      .modal-thumbs {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+      }
+
+      .modal-thumbs img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        border-radius: 4px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: border-color 0.2s;
+      }
+
+      .modal-thumbs img.active,
+      .modal-thumbs img:hover {
+        border-color: var(--accent);
+      }
+
+      .modal-info {
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .modal-info h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+      }
+
+      .modal-price {
+        font-size: 1.5rem;
+        color: var(--accent-red);
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .modal-info p {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        font-weight: 300;
+        margin-bottom: 1.5rem;
+        flex: 1;
+      }
+
+      .modal-info .btn {
+        width: 100%;
+        padding: 0.85rem;
+        font-size: 1rem;
+      }
+
+      /* Payment Modal */
+      .payment-form {
+        padding: 2rem;
+      }
+
+      .payment-form h2 {
+        margin-bottom: 0.3rem;
+        font-size: 1.4rem;
+      }
+
+      .payment-form .price-tag {
+        color: var(--accent-red);
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 0.85rem;
+        margin-bottom: 0.3rem;
+        color: var(--text-muted);
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 0.7rem 0.9rem;
+        background: #111;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 0.95rem;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      .payment-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        margin-top: 1.25rem;
+      }
+
+      .btn-crypto {
+        border-color: #f7931a;
+        color: #f7931a;
+      }
+      .btn-crypto:hover {
+        background: #f7931a;
+        color: #000;
+      }
+
+      /* Community / Footer */
+      .community {
+        background: linear-gradient(
+          180deg,
+          transparent,
+          rgba(196, 123, 184, 0.05)
+        );
+        border-top: 1px solid var(--border);
+        padding: 3.5rem 1.5rem;
+        text-align: center;
+      }
+
+      .community h2 {
+        font-size: 1.6rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .community p {
+        color: var(--text-muted);
+        max-width: 500px;
+        margin: 0 auto 1.75rem;
+        font-weight: 300;
+      }
+
+      .community-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes pulse-dot {
+        0%,
+        80%,
+        100% {
+          opacity: 0.2;
+          transform: scale(0.8);
+        }
+        40% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .btn-curtir {
+        border-color: #ff6b9d;
+        color: #ff6b9d;
+      }
+      .btn-curtir:hover {
+        background: #ff6b9d;
+        color: #fff;
+        box-shadow: 0 0 16px rgba(255, 107, 157, 0.5);
+      }
+      .btn-curtir.curtido {
+        background: #ff6b9d;
+        color: #fff;
+      }
+
+      .btn-status {
+        border-color: #444;
+        color: var(--text-muted);
+        cursor: default;
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-status::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(255, 255, 255, 0.06) 50%,
+          transparent 100%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.8s infinite;
+      }
+
+      .dots-color span:nth-child(1) {
+        background: #4cff72;
+      }
+      .dots-color span:nth-child(2) {
+        background: #ff8c00;
+      }
+      .dots-color span:nth-child(3) {
+        background: #c77dff;
+      }
+
+      .btn-loading {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-loading::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(255, 255, 255, 0.08) 50%,
+          transparent 100%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.6s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: -200% 0;
+        }
+        100% {
+          background-position: 200% 0;
+        }
+      }
+
+      .loading-dots {
+        display: inline-flex;
+        gap: 3px;
+        align-items: center;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+
+      .loading-dots span {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: currentColor;
+        display: inline-block;
+        animation: pulse-dot 1.2s infinite ease-in-out;
+      }
+
+      .loading-dots span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .loading-dots span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem 1.5rem;
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      footer .email {
+        display: block;
+        margin: 0.5rem 0 1rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 720px) {
+        nav {
+          display: none;
+        }
+        .logo-text h1 {
+          font-size: 1.1rem;
+        }
+        .hero {
+          padding-top: 3rem;
+        }
+      }
+
+      /* Win7 Desktop Folders */
+      .win7-desktop {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 5;
+      }
+
+      .win7-folder {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        width: 76px;
+        cursor: pointer;
+        pointer-events: all;
+        -webkit-user-select: none;
+        user-select: none;
+        transition: transform 0.15s ease;
+      }
+
+      .win7-folder:hover {
+        transform: scale(1.08);
+      }
+
+      .win7-folder:active {
+        transform: scale(0.96);
+      }
+
+      .folder-icon {
+        position: relative;
+        width: 56px;
+        height: 44px;
+        filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6))
+          drop-shadow(0 0 8px rgba(255, 180, 0, 0.2));
+        transition: filter 0.2s;
+      }
+
+      .win7-folder:hover .folder-icon {
+        filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.7))
+          drop-shadow(0 0 14px rgba(255, 200, 50, 0.45));
+      }
+
+      .folder-shine {
+        position: absolute;
+        top: 10px;
+        left: 6px;
+        width: 44px;
+        height: 16px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.28) 0%,
+          transparent 100%
+        );
+        border-radius: 4px 4px 0 0;
+        pointer-events: none;
+      }
+
+      .folder-name {
+        font-size: 0.75rem;
+        color: #fff;
+        text-align: center;
+        text-shadow:
+          0 1px 3px rgba(0, 0, 0, 0.9),
+          0 0 8px rgba(0, 0, 0, 0.8);
+        outline: none;
+        border-radius: 2px;
+        padding: 1px 4px;
+        max-width: 76px;
+        word-break: break-word;
+        line-height: 1.3;
+        font-family: "Segoe UI", Arial, sans-serif;
+        font-weight: 400;
+      }
+
+      .folder-name:focus {
+        background: rgba(0, 80, 200, 0.7);
+        box-shadow: 0 0 0 1px rgba(100, 160, 255, 0.8);
+      }
+
+      /* double-click open effect */
+      .win7-folder.open .folder-icon {
+        filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.8))
+          drop-shadow(0 0 20px rgba(255, 220, 80, 0.7)) brightness(1.2);
+      }
+
+      /* 3D Gallery */
+      .gallery-3d {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 4rem 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .gallery-title {
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 2.5rem;
+        color: var(--text);
+      }
+
+      .gallery-title span {
+        color: var(--accent);
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+
+      @media (max-width: 1024px) {
+        .gallery-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 720px) {
+        .gallery-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .crystal-panel {
+        position: relative;
+        height: 420px;
+        border-radius: 16px;
+        overflow: hidden;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.85) 0%,
+          rgba(10, 10, 20, 0.95) 100%
+        );
+        border: 1px solid rgba(196, 123, 184, 0.18);
+        box-shadow:
+          0 0 0 1px rgba(196, 123, 184, 0.08),
+          0 8px 40px rgba(0, 0, 0, 0.7),
+          inset 0 1px 0 rgba(255, 255, 255, 0.04),
+          inset 0 0 60px rgba(196, 123, 184, 0.03);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        transition:
+          box-shadow 0.35s ease,
+          border-color 0.35s ease;
+      }
+
+      .crystal-panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 16px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.04) 0%,
+          transparent 50%,
+          rgba(196, 123, 184, 0.03) 100%
+        );
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .crystal-panel:hover {
+        border-color: rgba(196, 123, 184, 0.45);
+        box-shadow:
+          0 0 0 1px rgba(196, 123, 184, 0.2),
+          0 12px 60px rgba(0, 0, 0, 0.8),
+          0 0 40px rgba(196, 123, 184, 0.12),
+          inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      }
+
+      .panel-label {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 0.75rem 1rem 3.5rem;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.9) 60%,
+          transparent
+        );
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        text-align: center;
+        z-index: 2;
+      }
+
+      .panel-actions {
+        position: absolute;
+        bottom: 0.6rem;
+        left: 0;
+        right: 0;
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        z-index: 3;
+        padding: 0 0.75rem;
+      }
+
+      .panel-actions .btn {
+        flex: 1;
+        padding: 0.4rem 0.5rem;
+        font-size: 0.78rem;
+        border-radius: 4px;
+      }
+
+      .btn-sell {
+        border-color: var(--accent-red);
+        color: var(--accent-red);
+      }
+      .btn-sell:hover {
+        background: var(--accent-red);
+        color: #fff;
+        box-shadow: 0 0 16px var(--accent-red-glow);
+      }
+
+      .crystal-panel-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .panel-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+        z-index: 0;
+        opacity: 0.88;
+        transition: transform 0.45s ease;
+      }
+
+      .crystal-panel:hover .panel-img {
+        transform: scale(1.05);
+      }
+
+      .panel-placeholder-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+        color: var(--text-muted);
+        opacity: 0.6;
+      }
+
+      .panel-placeholder-content .placeholder-icon {
+        font-size: 2.5rem;
+        color: var(--accent);
+      }
+
+      .panel-placeholder-content .placeholder-text {
+        font-size: 0.85rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      /* Hero text fade */
+      #heroText {
+        transition: opacity 1.2s ease;
+        min-height: 4rem;
+      }
+      #heroText.hidden {
+        opacity: 0;
+      }
+
+      /* Toast */
+      .toast {
+        position: fixed;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-card);
+        border: 1px solid var(--accent);
+        color: var(--text);
+        padding: 0.9rem 1.5rem;
+        border-radius: 6px;
+        z-index: 300;
+        opacity: 0;
+        transition: all 0.35s ease;
+        font-size: 0.95rem;
+        box-shadow: 0 0 20px var(--accent-glow);
+      }
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+
+      /* ===== HERO TOKEN ===== */
+      .hero-token {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 4rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 2.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      @media (max-width: 900px) {
+        .hero-token {
+          grid-template-columns: 1fr;
+          text-align: center;
+          padding-top: 2rem;
+        }
+      }
+
+      /* 3D Model side */
+      .hero-model-wrap {
+        width: 100%;
+        min-height: 420px;
+        max-height: 580px;
+        aspect-ratio: 1;
+        position: relative;
+        border-radius: 20px;
+        overflow: visible;
+      }
+
+      /* Setas de navegação do modelo */
+      .model-nav {
+        position: absolute;
+        bottom: -18px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        z-index: 10;
+      }
+
+      .model-nav-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(18, 10, 26, 0.92);
+        border: 1px solid rgba(196, 123, 184, 0.4);
+        color: var(--accent);
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        line-height: 1;
+        font-family: inherit;
+      }
+
+      .model-nav-btn:hover {
+        background: rgba(196, 123, 184, 0.18);
+        border-color: var(--accent);
+        box-shadow: 0 0 14px var(--accent-glow);
+        transform: scale(1.12);
+      }
+
+      .model-nav-dots {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+
+      .model-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: rgba(196, 123, 184, 0.3);
+        border: 1px solid rgba(196, 123, 184, 0.5);
+        transition: all 0.25s;
+        cursor: pointer;
+      }
+
+      .model-dot.active {
+        background: var(--accent);
+        box-shadow: 0 0 6px var(--accent-glow);
+      }
+
+      .hero-model-wrap::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+        background: radial-gradient(
+          ellipse 80% 80% at 50% 50%,
+          rgba(196, 123, 184, 0.12) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .hero-model-viewer {
+        width: 100%;
+        height: 100%;
+        min-height: 420px;
+        background: transparent;
+        --poster-color: transparent;
+      }
+
+      /* Content side */
+      .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+      }
+
+      @media (max-width: 900px) {
+        .hero-model-wrap { max-height: 360px; min-height: 300px; }
+        .hero-content { align-items: center; }
+        .hero-content .ca-box { justify-content: center; }
+        .hero-content .hero-cta { justify-content: center; }
+      }
+
+      .hero-ticker {
+        display: inline-block;
+        font-size: 0.72rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--accent);
+        border: 1px solid rgba(196, 123, 184, 0.4);
+        padding: 0.3rem 0.9rem;
+        border-radius: 50px;
+        margin-bottom: 1.5rem;
+        animation: pulse-border 2.5s infinite;
+      }
+
+      @keyframes pulse-border {
+        0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+        50% { box-shadow: 0 0 0 8px transparent; }
+      }
+
+      .hero-token h2 {
+        font-size: clamp(3.5rem, 12vw, 8rem);
+        font-weight: 900;
+        background: linear-gradient(135deg, #c47bb8 0%, #e8a0e0 40%, #8b4a9b 70%, #c47bb8 100%);
+        background-size: 300% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradient-flow 5s linear infinite;
+        letter-spacing: 0.06em;
+        line-height: 0.9;
+        margin-bottom: 0.75rem;
+        filter: drop-shadow(0 0 30px rgba(196, 123, 184, 0.3));
+      }
+
+      @keyframes gradient-flow {
+        0% { background-position: 0% center; }
+        100% { background-position: 300% center; }
+      }
+
+      .hero-slogan {
+        font-size: clamp(1rem, 2.5vw, 1.35rem);
+        color: var(--text-muted);
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        font-weight: 300;
+        margin-bottom: 2.5rem;
+      }
+
+      .ca-box {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: rgba(196, 123, 184, 0.05);
+        border: 1px solid rgba(196, 123, 184, 0.28);
+        border-radius: 8px;
+        padding: 0.85rem 1.25rem;
+        margin-bottom: 2.5rem;
+        max-width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .ca-label {
+        font-size: 0.68rem;
+        letter-spacing: 0.22em;
+        color: var(--accent);
+        text-transform: uppercase;
+        white-space: nowrap;
+        font-weight: 700;
+      }
+
+      .ca-address {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: clamp(0.68rem, 1.8vw, 0.9rem);
+        color: var(--text);
+        word-break: break-all;
+        text-align: center;
+        letter-spacing: 0.03em;
+      }
+
+      .ca-copy {
+        background: var(--accent);
+        color: #000;
+        border: none;
+        border-radius: 4px;
+        padding: 0.42rem 0.85rem;
+        font-size: 0.78rem;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s;
+        font-family: inherit;
+        letter-spacing: 0.04em;
+      }
+      .ca-copy:hover { background: #e8a0e0; transform: scale(1.05); }
+      .ca-copy.copied { background: #4cff72; color: #000; }
+
+      .hero-cta {
+        display: flex;
+        gap: 0.85rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+      }
+
+      .btn-buy {
+        background: linear-gradient(135deg, #4cff72, #00cc55) !important;
+        color: #000 !important;
+        border-color: transparent !important;
+        font-size: 1.05rem;
+        padding: 0.85rem 2rem;
+        box-shadow: 0 0 28px rgba(76, 255, 114, 0.35);
+        font-weight: 900;
+      }
+      .btn-buy:hover {
+        background: linear-gradient(135deg, #7affa0, #00ff66) !important;
+        box-shadow: 0 0 40px rgba(76, 255, 114, 0.55) !important;
+        transform: translateY(-2px) scale(1.04);
+        color: #000 !important;
+      }
+
+      .btn-chart {
+        border-color: #f7931a !important;
+        color: #f7931a !important;
+      }
+      .btn-chart:hover {
+        background: #f7931a !important;
+        color: #000 !important;
+        box-shadow: 0 0 20px rgba(247, 147, 26, 0.45) !important;
+      }
+
+      .btn-raydium {
+        border-color: #7b3ff2 !important;
+        color: #9b5fff !important;
+      }
+      .btn-raydium:hover {
+        background: #7b3ff2 !important;
+        color: #fff !important;
+        box-shadow: 0 0 20px rgba(123, 63, 242, 0.4) !important;
+      }
+
+      /* ===== TOKEN STATS BAR ===== */
+      .token-stats-bar {
+        background: rgba(18, 10, 26, 0.9);
+        border-top: 1px solid rgba(196, 123, 184, 0.12);
+        border-bottom: 1px solid rgba(196, 123, 184, 0.12);
+        padding: 1.1rem 1.5rem;
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+      }
+
+      .token-stats-inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        gap: 0;
+        justify-content: center;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.15rem;
+        padding: 0.4rem 1.75rem;
+        border-right: 1px solid var(--border);
+      }
+      .stat-item:last-child { border-right: none; }
+
+      @media (max-width: 600px) {
+        .stat-item { border-right: none; padding: 0.5rem 1rem; }
+      }
+
+      .stat-label {
+        font-size: 0.62rem;
+        color: var(--text-muted);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      .stat-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .stat-value.green { color: #4cff72; }
+      .stat-value.accent { color: var(--accent); }
+      .stat-value.orange { color: #f7931a; }
+
+      /* ===== TRUST SECTION ===== */
+      .trust-section {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 2rem;
+      }
+
+      /* Verification Board */
+      .trust-board {
+        background: rgba(18, 10, 26, 0.85);
+        border: 1px solid rgba(196, 123, 184, 0.18);
+        border-radius: 16px;
+        overflow: hidden;
+        margin-top: 1.75rem;
+        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(16px);
+        box-shadow:
+          0 0 0 1px rgba(196, 123, 184, 0.05),
+          0 20px 60px rgba(0, 0, 0, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      }
+
+      .trust-board-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.9rem 1.5rem;
+        background: linear-gradient(90deg, rgba(196, 123, 184, 0.08), rgba(196, 123, 184, 0.03));
+        border-bottom: 1px solid rgba(196, 123, 184, 0.1);
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .trust-board-tag {
+        font-size: 0.68rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .trust-board-time {
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        letter-spacing: 0.08em;
+      }
+
+      .trust-row-item {
+        display: grid;
+        grid-template-columns: 40px 1fr auto auto;
+        align-items: center;
+        gap: 1.25rem;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        transition: background 0.2s;
+      }
+
+      .trust-row-item:last-child { border-bottom: none; }
+      .trust-row-item:hover { background: rgba(196, 123, 184, 0.04); }
+
+      @media (max-width: 600px) {
+        .trust-row-item {
+          grid-template-columns: 36px 1fr;
+          gap: 0.75rem;
+        }
+        .trust-badge, .tri-link { display: none; }
+      }
+
+      .tri-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.62rem;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        flex-shrink: 0;
+        font-family: 'Courier New', Courier, monospace;
+      }
+      .tri-icon.ig { background: rgba(76, 255, 114, 0.1); border: 1px solid rgba(76, 255, 114, 0.2); }
+      .tri-icon.ib { background: rgba(196, 123, 184, 0.1); border: 1px solid rgba(196, 123, 184, 0.2); }
+      .tri-icon.io { background: rgba(247, 147, 26, 0.1); border: 1px solid rgba(247, 147, 26, 0.2); }
+      .tri-icon.ir { background: rgba(255, 42, 42, 0.1); border: 1px solid rgba(255, 42, 42, 0.2); }
+      .tri-icon.ip { background: rgba(155, 95, 255, 0.1); border: 1px solid rgba(155, 95, 255, 0.2); }
+
+      .tri-info { flex: 1; min-width: 0; }
+
+      .tri-label {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: var(--text);
+        display: block;
+        margin-bottom: 0.1rem;
+      }
+
+      .tri-sub {
+        font-size: 0.68rem;
+        color: var(--text-muted);
+        letter-spacing: 0.02em;
+      }
+
+      .trust-badge {
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        padding: 0.28rem 0.7rem;
+        border-radius: 50px;
+        white-space: nowrap;
+        text-transform: uppercase;
+      }
+
+      .t-verified  { background: rgba(76,255,114,0.1); color: #4cff72; border: 1px solid rgba(76,255,114,0.28); }
+      .t-active    { background: rgba(196, 123, 184, 0.1); color: var(--accent); border: 1px solid rgba(196, 123, 184, 0.25); }
+      .t-pending   { background: rgba(247,147,26,0.1); color: #f7931a; border: 1px solid rgba(247,147,26,0.25); }
+      .t-renounced { background: rgba(155,95,255,0.1); color: #9b5fff; border: 1px solid rgba(155,95,255,0.28); }
+
+      .tri-link {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: var(--accent);
+        padding: 0.28rem 0.65rem;
+        border: 1px solid rgba(196, 123, 184, 0.22);
+        border-radius: 5px;
+        transition: all 0.2s;
+        white-space: nowrap;
+        text-decoration: none;
+      }
+      .tri-link:hover {
+        background: rgba(196, 123, 184, 0.1);
+        border-color: var(--accent);
+        color: #e8a0e0;
+      }
+      .tri-link-hidden { visibility: hidden; pointer-events: none; }
+
+      /* Trust Metric Counters */
+      .trust-counters {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        margin-top: 1.25rem;
+        background: var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+      }
+
+      @media (max-width: 500px) {
+        .trust-counters { grid-template-columns: 1fr; }
+      }
+
+      .trust-counter {
+        background: var(--bg-card);
+        padding: 1.5rem 1rem;
+        text-align: center;
+      }
+
+      .trust-counter strong {
+        display: block;
+        font-size: 1.9rem;
+        font-weight: 900;
+        color: var(--text);
+        line-height: 1;
+        margin-bottom: 0.4rem;
+        font-family: 'Courier New', monospace;
+      }
+
+      .trust-counter span {
+        font-size: 0.62rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+      }
+
+      /* ===== TOKENOMICS ===== */
+      .tokenomics {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+      }
+
+      .tknm-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center;
+        margin-top: 1.5rem;
+      }
+
+      @media (max-width: 760px) {
+        .tknm-grid { grid-template-columns: 1fr; }
+      }
+
+      .tknm-donut {
+        position: relative;
+        width: 100%;
+        max-width: 260px;
+        margin: 0 auto;
+        aspect-ratio: 1;
+      }
+
+      .tknm-donut svg {
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+        filter: drop-shadow(0 0 20px rgba(196, 123, 184, 0.2));
+      }
+
+      .tknm-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        pointer-events: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+      }
+
+      .tknm-center-avatar {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .tknm-center strong,
+      .tknm-center span {
+        display: none;
+      }
+
+      .tknm-legend {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+      }
+
+      .tknm-legend-item {
+        display: grid;
+        grid-template-columns: 14px 1fr auto;
+        align-items: center;
+        gap: 0.65rem;
+      }
+
+      .tknm-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 4px;
+        flex-shrink: 0;
+      }
+
+      .tknm-legend-info { flex: 1; }
+
+      .tknm-legend-name {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 0.1rem;
+      }
+
+      .tknm-legend-sub {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+      }
+
+      .tknm-legend-pct {
+        font-size: 1.1rem;
+        font-weight: 900;
+        color: var(--text);
+      }
+
+      .tknm-bar {
+        height: 4px;
+        border-radius: 2px;
+        margin-top: 0.25rem;
+        opacity: 0.5;
+      }
+
+      .tknm-facts-row {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-top: 1.75rem;
+      }
+
+      .tknm-fact-chip {
+        background: rgba(196, 123, 184, 0.06);
+        border: 1px solid rgba(196, 123, 184, 0.2);
+        border-radius: 6px;
+        padding: 0.6rem 1rem;
+        text-align: center;
+        min-width: 110px;
+        flex: 1;
+      }
+
+      .tknm-fact-chip strong {
+        display: block;
+        color: var(--accent);
+        font-size: 0.95rem;
+        font-weight: 900;
+      }
+
+      .tknm-fact-chip span {
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      /* ===== BURN TRACKER ===== */
+      .burn-tracker {
+        background: rgba(255, 42, 42, 0.04);
+        border: 1px solid rgba(255, 42, 42, 0.22);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-top: 2rem;
+        text-align: center;
+      }
+
+      .burn-tracker h4 {
+        color: var(--accent-red);
+        font-size: 0.72rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        margin-bottom: 0.75rem;
+      }
+
+      .burn-amount {
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--accent-red);
+        margin-bottom: 0.5rem;
+        font-family: 'Courier New', Courier, monospace;
+      }
+
+      .burn-bar-wrap {
+        background: rgba(255, 42, 42, 0.1);
+        border-radius: 4px;
+        height: 8px;
+        overflow: hidden;
+        margin: 0 auto 0.4rem;
+        max-width: 280px;
+      }
+
+      .burn-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #ff2a2a, #ff7700);
+        border-radius: 4px;
+        animation: burn-glow 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes burn-glow {
+        from { box-shadow: 0 0 8px rgba(255, 42, 42, 0.4); }
+        to { box-shadow: 0 0 18px rgba(255, 100, 0, 0.7); }
+      }
+
+      .burn-sub {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+      }
+
+      /* ===== HOW TO BUY ===== */
+      .how-to-buy {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+      }
+
+      .htb-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.25rem;
+        margin-top: 2rem;
+      }
+
+      .htb-step {
+        background: rgba(18, 10, 26, 0.85);
+        border: 1px solid var(--border);
+        border-top: 2px solid rgba(196, 123, 184, 0.35);
+        border-radius: 12px;
+        padding: 1.75rem 1.25rem 1.5rem;
+        position: relative;
+        transition: all 0.3s;
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      }
+
+      .htb-step:hover {
+        border-top-color: var(--accent);
+        border-color: rgba(196, 123, 184, 0.3);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.05),
+          0 0 24px var(--accent-glow);
+        transform: translateY(-4px);
+      }
+
+      .htb-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+        color: #000;
+        font-size: 0.85rem;
+        font-weight: 900;
+        margin-bottom: 1rem;
+        box-shadow: 0 0 14px var(--accent-glow);
+      }
+
+      .htb-step-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        display: block;
+        line-height: 1;
+      }
+
+      .htb-step h4 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--text);
+      }
+
+      .htb-step p {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 300;
+        line-height: 1.6;
+      }
+
+      .htb-step a { color: var(--accent); font-weight: 700; }
+
+      /* ===== UTILITY SECTION ===== */
+      .utility-section {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 4rem;
+      }
+
+      .utility-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.25rem;
+        margin-top: 2rem;
+      }
+
+      .utility-card {
+        background: rgba(18, 10, 26, 0.85);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 1.5rem;
+        transition: all 0.35s;
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+        position: relative;
+        overflow: hidden;
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      }
+
+      .utility-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        opacity: 0.5;
+        transition: opacity 0.35s;
+        border-radius: 14px 14px 0 0;
+      }
+
+      .utility-card:hover::before { opacity: 1; }
+
+      .utility-card.acc-live::before   { background: #4cff72; }
+      .utility-card.acc-blue::before   { background: var(--accent); }
+      .utility-card.acc-orange::before { background: #f7931a; }
+      .utility-card.acc-purple::before { background: #9b5fff; }
+
+      .utility-card:hover {
+        border-color: rgba(196, 123, 184, 0.3);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.05),
+          0 0 28px var(--accent-glow);
+        transform: translateY(-4px);
+      }
+
+      .utility-card.acc-live:hover   { border-color: rgba(76,255,114,0.35); box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 0 28px rgba(76,255,114,0.2); }
+      .utility-card.acc-orange:hover { border-color: rgba(247,147,26,0.35); box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 0 28px rgba(247,147,26,0.2); }
+      .utility-card.acc-purple:hover { border-color: rgba(155,95,255,0.35); box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 0 28px rgba(155,95,255,0.2); }
+
+      .utility-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.15rem;
+        line-height: 1;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      .utility-card.acc-live   .utility-icon { background: rgba(76,255,114,0.1); border-color: rgba(76,255,114,0.2); }
+      .utility-card.acc-blue   .utility-icon { background: rgba(196, 123, 184, 0.1); border-color: rgba(196, 123, 184, 0.2); }
+      .utility-card.acc-orange .utility-icon { background: rgba(247,147,26,0.1); border-color: rgba(247,147,26,0.2); }
+      .utility-card.acc-purple .utility-icon { background: rgba(155,95,255,0.1); border-color: rgba(155,95,255,0.2); }
+
+      .utility-card h4 {
+        font-size: 0.98rem;
+        font-weight: 700;
+        color: var(--text);
+      }
+
+      .utility-card p {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 300;
+        line-height: 1.6;
+        flex: 1;
+      }
+
+      .utility-badge {
+        display: inline-block;
+        font-size: 0.62rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.2rem 0.55rem;
+        border-radius: 3px;
+        font-weight: 700;
+        align-self: flex-start;
+        margin-top: auto;
+      }
+
+      .badge-live { background: rgba(76,255,114,0.12); color: #4cff72; border: 1px solid rgba(76,255,114,0.3); }
+      .badge-soon { background: rgba(196, 123, 184, 0.1); color: var(--accent); border: 1px solid rgba(196, 123, 184, 0.25); }
+      .badge-q3   { background: rgba(247,147,26,0.1); color: #f7931a; border: 1px solid rgba(247,147,26,0.25); }
+      .badge-q4   { background: rgba(155,95,255,0.12); color: #9b5fff; border: 1px solid rgba(155,95,255,0.28); }
+
+      /* ===== STAKING PANEL ===== */
+      .staking-panel {
+        background: rgba(18, 10, 26, 0.9);
+        border: 1px solid rgba(196, 123, 184, 0.22);
+        border-top: 2px solid rgba(196, 123, 184, 0.5);
+        border-radius: 14px;
+        padding: 0;
+        max-width: 480px;
+        margin: 2.5rem auto 0;
+        overflow: hidden;
+        box-shadow:
+          0 0 40px rgba(196, 123, 184, 0.08),
+          inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(16px);
+      }
+
+      .staking-header {
+        padding: 1.25rem 1.5rem 0;
+        text-align: center;
+      }
+
+      .staking-panel h4 {
+        font-size: 0.72rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0;
+        font-weight: 700;
+      }
+
+      .staking-apy {
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: #4cff72;
+        line-height: 1;
+        margin: 0.3rem 0 0.1rem;
+        font-family: 'Courier New', monospace;
+        text-shadow: 0 0 20px rgba(76, 255, 114, 0.4);
+      }
+
+      .staking-apy-label {
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .staking-stats {
+        display: grid;
+        grid-template-columns: 1fr 1px 1fr;
+        gap: 0;
+        margin: 1.25rem 0 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .staking-stat {
+        padding: 0.85rem 1rem;
+        text-align: center;
+      }
+
+      .staking-divider {
+        background: rgba(255, 255, 255, 0.05);
+        width: 1px;
+      }
+
+      .staking-stat .s-val {
+        font-size: 1.15rem;
+        font-weight: 900;
+        color: var(--text);
+        display: block;
+        font-family: 'Courier New', monospace;
+      }
+
+      .staking-stat .s-lbl {
+        font-size: 0.6rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .staking-body {
+        padding: 1.25rem 1.5rem 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .staking-row {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 0.65rem;
+      }
+
+      .staking-row input {
+        flex: 1;
+        padding: 0.75rem 0.9rem;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 6px;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 0.9rem;
+        transition: border-color 0.2s;
+      }
+
+      .staking-row input:focus {
+        outline: none;
+        border-color: var(--accent);
+        background: rgba(196, 123, 184, 0.05);
+      }
+
+      /* ===== MEME GALLERY ===== */
+      .meme-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .meme-card {
+        aspect-ratio: 1;
+        background: rgba(0, 0, 0, 0.45);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        overflow: hidden;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      .meme-card:hover {
+        border-color: var(--accent);
+        box-shadow: 0 0 20px var(--accent-glow);
+        transform: scale(1.04);
+      }
+
+      .meme-card.add-card {
+        border-style: dashed;
+        border-color: rgba(196, 123, 184, 0.3);
+        color: var(--text-muted);
+        flex-direction: column;
+        gap: 0.4rem;
+        font-size: 1.8rem;
+      }
+
+      .meme-card.add-card span {
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-family: "Merriweather", serif;
+      }
+
+      .meme-card.add-card:hover { border-color: var(--accent); color: var(--accent); }
+
+      /* Cores dos segmentos tokenomics */
+      .tknm-dot.c1,.tknm-bar.c1 { background: #c47bb8; }
+      .tknm-dot.c2,.tknm-bar.c2 { background: #f7931a; }
+      .tknm-dot.c3,.tknm-bar.c3 { background: #4cff72; }
+      .tknm-dot.c4,.tknm-bar.c4 { background: #9b5fff; }
+      .tknm-dot.c5,.tknm-bar.c5 { background: #ff2a2a; }
+      .tknm-bar.c1 { width: 50%; }
+      .tknm-bar.c2 { width: 20%; }
+      .tknm-bar.c3 { width: 15%; }
+      .tknm-bar.c4 { width: 10%; }
+      .tknm-bar.c5 { width:  5%; }
+
+      /* Tip Jar */
+      .tipjar-wrap {
+        text-align: center;
+        margin-top: 2.5rem;
+      }
+
+      .tipjar-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.4rem;
+      }
+
+      .tipjar-sub {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+        font-weight: 300;
+      }
+
+      .tipjar-box {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: rgba(196, 123, 184, 0.05);
+        border: 1px solid rgba(196, 123, 184, 0.2);
+        border-radius: 6px;
+        padding: 0.7rem 1.1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 640px;
+      }
+
+      .tipjar-addr {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.82rem;
+        color: var(--text);
+        word-break: break-all;
+      }
+
+      /* Meme subsection */
+      .meme-subsection {
+        margin-top: 3rem;
+      }
+
+      .meme-subsection-title {
+        font-size: 1.4rem;
+        margin-bottom: 0.4rem;
+      }
+
+      /* Staking note */
+      .staking-note {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        text-align: center;
+        margin-top: 0.5rem;
+        font-weight: 300;
+      }
+
+      /* Meme add icon */
+      .meme-add-icon {
+        font-size: 1.5rem;
+        line-height: 1;
+      }
+
+      /* Gallery description */
+      .gallery-desc {
+        text-align: center;
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+        font-weight: 300;
+        font-size: 1rem;
+      }
+
+      .gallery-desc-highlight { color: var(--accent); }
+
+      /* Gallery name banner */
+      .gallery-name-banner {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        background: rgba(196, 123, 184, 0.05);
+        border: 1px solid rgba(196, 123, 184, 0.18);
+        border-left: 3px solid var(--accent);
+        border-radius: 8px;
+        padding: 0.9rem 1.25rem;
+        margin-bottom: 2.5rem;
+        flex-wrap: wrap;
+      }
+
+      .gnb-label {
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .gnb-sep {
+        color: var(--border);
+        font-size: 0.85rem;
+      }
+
+      .gnb-text {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        font-weight: 300;
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .gnb-text strong { color: var(--accent); }
+
+      .gnb-link {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--accent);
+        border: 1px solid rgba(196, 123, 184, 0.25);
+        border-radius: 4px;
+        padding: 0.28rem 0.65rem;
+        white-space: nowrap;
+        transition: all 0.2s;
+        text-decoration: none;
+      }
+
+      .gnb-link:hover {
+        background: rgba(196, 123, 184, 0.1);
+        color: #e8a0e0;
+      }
+      /* ===== DICIONÁRIO IA ===== */
+      .dicionario-section {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 5rem;
+      }
+
+      .dic-search-wrap {
+        display: flex;
+        gap: 0.65rem;
+        max-width: 600px;
+        margin: 2rem auto 2.5rem;
+      }
+
+      .dic-search {
+        flex: 1;
+        padding: 0.8rem 1.1rem;
+        background: rgba(18, 10, 26, 0.9);
+        border: 1px solid var(--border-soft);
+        border-radius: 8px;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 0.9rem;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        outline: none;
+      }
+
+      .dic-search:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(196, 123, 184, 0.12);
+      }
+
+      .dic-search::placeholder { color: var(--text-muted); }
+
+      .dic-ask-btn {
+        white-space: nowrap;
+        padding: 0.8rem 1.25rem;
+        font-size: 0.88rem;
+      }
+
+      .dic-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1rem;
+      }
+
+      .dic-card {
+        background: rgba(18, 10, 26, 0.85);
+        border: 1px solid var(--border-soft);
+        border-left: 3px solid var(--accent);
+        border-radius: 10px;
+        padding: 1.1rem 1.25rem;
+        transition: all 0.3s;
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+      }
+
+      .dic-card:hover {
+        border-color: var(--accent);
+        box-shadow: 0 0 18px var(--accent-glow);
+        transform: translateY(-2px);
+      }
+
+      .dic-card.hidden { display: none; }
+
+      .dic-term {
+        font-size: 0.75rem;
+        font-weight: 900;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.4rem;
+        font-family: 'Courier New', Courier, monospace;
+      }
+
+      .dic-def {
+        font-size: 0.82rem;
+        color: var(--text-secondary);
+        font-weight: 300;
+        line-height: 1.6;
+      }
+
+      .dic-no-result {
+        grid-column: 1 / -1;
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.88rem;
+        padding: 2rem 0;
+      }
+
+      .roadmap-section {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 5rem;
+      }
+
+      .roadmap-track {
+        position: relative;
+        padding-left: 2.25rem;
+        max-width: 720px;
+        margin: 2rem auto 0;
+      }
+
+      .roadmap-track::before {
+        content: '';
+        position: absolute;
+        left: 7px;
+        top: 12px;
+        bottom: 12px;
+        width: 2px;
+        background: linear-gradient(180deg, #4cff72 0%, var(--accent) 40%, rgba(196, 123, 184, 0.15) 100%);
+      }
+
+      .rm-item {
+        position: relative;
+        margin-bottom: 1.75rem;
+        padding: 1.35rem 1.5rem 1.35rem 1.75rem;
+        background: rgba(18, 10, 26, 0.85);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--border);
+        border-radius: 10px;
+        transition: all 0.3s;
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      }
+
+      .rm-item:hover { border-color: rgba(196, 123, 184, 0.25); }
+
+      .rm-item::before {
+        content: '';
+        position: absolute;
+        left: -2.25rem;
+        top: 1.35rem;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--border);
+        border: 3px solid var(--bg);
+      }
+
+      .rm-item.done::before   { background: #4cff72; box-shadow: 0 0 10px rgba(76,255,114,0.45); }
+      .rm-item.active::before { background: var(--accent); box-shadow: 0 0 12px var(--accent-glow); animation: dot-pulse 1.5s infinite; }
+
+      .rm-item.done   { border-left-color: #4cff72; }
+      .rm-item.active { border-left-color: var(--accent); }
+      .rm-item.done:hover   { border-color: rgba(76,255,114,0.3); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 0 20px rgba(76,255,114,0.12); }
+      .rm-item.active:hover { border-color: rgba(196, 123, 184, 0.35); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 0 24px var(--accent-glow); }
+
+      @keyframes dot-pulse {
+        0%, 100% { box-shadow: 0 0 8px var(--accent-glow); }
+        50% { box-shadow: 0 0 22px rgba(196, 123, 184, 0.8); }
+      }
+
+      .rm-phase {
+        font-size: 0.62rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        margin-bottom: 0.25rem;
+        font-weight: 700;
+      }
+
+      .rm-item.done .rm-phase     { color: #4cff72; }
+      .rm-item.active .rm-phase   { color: var(--accent); }
+      .rm-item.upcoming .rm-phase { color: var(--text-muted); }
+
+      .rm-item h4 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--text);
+      }
+
+      .rm-item ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+
+      .rm-item ul li {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        line-height: 1.4;
+      }
+
+      .rm-item ul li::before          { content: '◦'; color: var(--text-muted); flex-shrink: 0; margin-top: 1px; }
+      .rm-item.done ul li::before     { content: '✓'; color: #4cff72; }
+      .rm-item.active ul li::before   { content: '▸'; color: var(--accent); }
+
+      /* ===== XENO CAT IA — CHAT WIDGET ===== */
+      #xeno-chat-btn {
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        z-index: 9000;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent-dim), var(--accent));
+        border: 2px solid var(--accent);
+        box-shadow: 0 0 24px var(--accent-glow), 0 4px 16px rgba(0,0,0,0.6);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        color: #fff;
+      }
+      #xeno-chat-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 38px var(--accent-glow), 0 4px 20px rgba(0,0,0,0.7);
+      }
+      #xeno-chat-btn .xeno-notif {
+        position: absolute;
+        top: 0; right: 0;
+        width: 14px; height: 14px;
+        background: var(--accent-red);
+        border-radius: 50%;
+        border: 2px solid var(--bg);
+        display: none;
+      }
+      #xeno-chat-btn.has-notif .xeno-notif { display: block; }
+
+      #xeno-chat-window {
+        position: fixed;
+        bottom: 5.5rem;
+        right: 1.5rem;
+        z-index: 8999;
+        width: 360px;
+        max-width: calc(100vw - 2rem);
+        height: 520px;
+        max-height: calc(100vh - 7rem);
+        background: var(--bg-card);
+        border: 1px solid rgba(196,123,184,0.35);
+        border-radius: 16px;
+        box-shadow: 0 0 50px rgba(196,123,184,0.2), 0 16px 60px rgba(0,0,0,0.8);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        transform: scale(0.9) translateY(10px);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), opacity 0.2s ease;
+      }
+      #xeno-chat-window.open {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .xeno-chat-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.9rem 1rem;
+        background: linear-gradient(90deg, rgba(139,74,155,0.5), rgba(196,123,184,0.2));
+        border-bottom: 1px solid rgba(196,123,184,0.2);
+        flex-shrink: 0;
+      }
+      .xeno-chat-avatar {
+        width: 36px; height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent-dim), var(--accent));
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.2rem;
+        box-shadow: 0 0 12px var(--accent-glow);
+        flex-shrink: 0;
+      }
+      .xeno-chat-header-info { flex: 1; min-width: 0; }
+      .xeno-chat-header-info strong {
+        display: block;
+        font-size: 0.95rem;
+        color: var(--text);
+      }
+      .xeno-chat-header-info span {
+        font-size: 0.72rem;
+        color: var(--accent);
+        letter-spacing: 0.05em;
+      }
+      .xeno-chat-close {
+        background: none; border: none;
+        color: var(--text-muted); cursor: pointer;
+        font-size: 1.1rem; padding: 0.3rem;
+        border-radius: 4px;
+        transition: color 0.15s, background 0.15s;
+      }
+      .xeno-chat-close:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+
+      .xeno-chat-msgs {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        scrollbar-width: thin;
+        scrollbar-color: var(--accent-dim) transparent;
+      }
+      .xeno-chat-msgs::-webkit-scrollbar { width: 4px; }
+      .xeno-chat-msgs::-webkit-scrollbar-track { background: transparent; }
+      .xeno-chat-msgs::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 2px; }
+
+      .xeno-msg {
+        display: flex;
+        gap: 0.5rem;
+        max-width: 88%;
+        animation: xeno-msg-in 0.2s ease;
+      }
+      @keyframes xeno-msg-in {
+        from { opacity: 0; transform: translateY(6px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      .xeno-msg.user { align-self: flex-end; flex-direction: row-reverse; }
+      .xeno-msg.assistant { align-self: flex-start; }
+
+      .xeno-msg-bubble {
+        padding: 0.6rem 0.85rem;
+        border-radius: 12px;
+        font-size: 0.88rem;
+        line-height: 1.55;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .xeno-msg.user .xeno-msg-bubble {
+        background: linear-gradient(135deg, var(--accent-dim), rgba(196,123,184,0.5));
+        color: #fff;
+        border-bottom-right-radius: 4px;
+      }
+      .xeno-msg.assistant .xeno-msg-bubble {
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(196,123,184,0.18);
+        color: var(--text);
+        border-bottom-left-radius: 4px;
+      }
+
+      .xeno-msg-avatar {
+        width: 26px; height: 26px;
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.85rem;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .xeno-msg.assistant .xeno-msg-avatar {
+        background: linear-gradient(135deg, var(--accent-dim), var(--accent));
+        box-shadow: 0 0 8px var(--accent-glow);
+      }
+      .xeno-msg.user .xeno-msg-avatar {
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.15);
+      }
+
+      .xeno-typing {
+        display: flex; gap: 4px; align-items: center;
+        padding: 0.5rem 0;
+      }
+      .xeno-typing span {
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+        animation: xeno-bounce 1.2s infinite ease-in-out;
+      }
+      .xeno-typing span:nth-child(2) { animation-delay: 0.2s; }
+      .xeno-typing span:nth-child(3) { animation-delay: 0.4s; }
+      @keyframes xeno-bounce {
+        0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+        40% { transform: scale(1); opacity: 1; }
+      }
+
+      .xeno-chat-form {
+        display: flex;
+        gap: 0.5rem;
+        padding: 0.75rem;
+        border-top: 1px solid rgba(196,123,184,0.15);
+        background: rgba(0,0,0,0.3);
+        flex-shrink: 0;
+      }
+      .xeno-chat-input {
+        flex: 1;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(196,123,184,0.25);
+        border-radius: 8px;
+        padding: 0.55rem 0.75rem;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 0.88rem;
+        outline: none;
+        transition: border-color 0.2s;
+        resize: none;
+        min-height: 40px;
+        max-height: 120px;
+      }
+      .xeno-chat-input:focus { border-color: var(--accent); }
+      .xeno-chat-input::placeholder { color: var(--text-muted); }
+      .xeno-chat-send {
+        background: linear-gradient(135deg, var(--accent-dim), var(--accent));
+        border: none; border-radius: 8px;
+        color: #fff; cursor: pointer;
+        width: 40px; height: 40px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1rem;
+        transition: opacity 0.2s, transform 0.15s;
+        flex-shrink: 0;
+      }
+      .xeno-chat-send:hover:not(:disabled) { opacity: 0.9; transform: scale(1.05); }
+      .xeno-chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+      @media (max-width: 420px) {
+        #xeno-chat-window { width: calc(100vw - 1rem); right: 0.5rem; }
+        #xeno-chat-btn { right: 1rem; bottom: 1rem; }
+      }
+      /* ===== FIM XENO CAT IA ===== */
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="header-inner">
+        <a href="#" class="logo">
+          <div class="logo-text">
+            <h1>XENO CAT</h1>
+            <span>$XENO on Solana</span>
+          </div>
+        </a>
+        <nav>
+          <a href="#token">Token</a>
+          <a href="#como-comprar">Como Comprar</a>
+          <a href="#tokenomics">Tokenomics</a>
+          <a href="#utilidade">Utilidade</a>
+          <a href="#roadmap">Roadmap</a>
+          <a href="#comunidade">Comunidade</a>
+          <a href="#dicionario" class="nav-ia">Dicion&aacute;rio IA</a>
+          <a
+            href="#diversao"
+            class="nav-fun"
+            onclick="
+              var s = document.getElementById('diversao');
+              s.classList.add('open');
+              setTimeout(function () {
+                s.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 60);
+              return false;
+            "
+            >🎮 Divers&atilde;o</a
+          >
+        </nav>
+        <button class="btn btn-wallet btn-loading" id="walletBtn">
+          Conectar Wallet<span class="loading-dots"
+            ><span></span><span></span><span></span
+          ></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Token -->
+    <section class="hero-token" id="token">
+      <!-- Esquerda: Modelo 3D -->
+      <div class="hero-model-wrap">
+        <model-viewer
+          class="hero-model-viewer"
+          id="heroModelViewer"
+          src="animação 3d/xenocat1.glb"
+          auto-rotate
+          camera-controls
+          disable-zoom
+          rotation-per-second="18deg"
+          shadow-intensity="0"
+          exposure="0.9"
+          touch-action="pan-y"
+        ></model-viewer>
+
+        <!-- Navegação entre criaturas -->
+        <div class="model-nav">
+          <button class="model-nav-btn" id="modelPrev" title="Anterior">
+            &#8592;
+          </button>
+          <div class="model-nav-dots">
+            <span class="model-dot active" data-idx="0"></span>
+            <span class="model-dot" data-idx="1"></span>
+            <span class="model-dot" data-idx="2"></span>
+          </div>
+          <button class="model-nav-btn" id="modelNext" title="Próxima">
+            &#8594;
+          </button>
+        </div>
+      </div>
+
+      <!-- Direita: Conteúdo -->
+      <div class="hero-content">
+        <h2>XENO CAT</h2>
+        <p class="hero-slogan">The Alien Meme Coin That Evolves</p>
+
+        <!-- Contract Address -->
+        <div class="ca-box">
+          <span class="ca-label">CA</span>
+          <span class="ca-address" id="caAddress"
+            >XeNoXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxX</span
+          >
+          <button class="ca-copy" id="caCopyBtn">Copiar</button>
+        </div>
+
+        <!-- CTAs -->
+        <div class="hero-cta">
+          <a
+            href="https://jup.ag/swap/SOL-XENO"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-buy"
+            >Buy on Jupiter</a
+          >
+          <a
+            href="https://raydium.io/swap/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-raydium"
+            >Raydium</a
+          >
+          <a
+            href="https://dexscreener.com/solana/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-chart"
+            >Chart</a
+          >
+          <a
+            href="https://solscan.io/token/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn"
+            >Solscan</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Token Stats Bar -->
+    <div class="token-stats-bar">
+      <div class="token-stats-inner">
+        <div class="stat-item">
+          <span class="stat-label">Pre&ccedil;o</span>
+          <span class="stat-value green" id="statPrice">$0.0000042</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Market Cap</span>
+          <span class="stat-value accent" id="statMcap">$4.2K</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Holders</span>
+          <span class="stat-value" id="statHolders">&#8212;&#8212;</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Liquidez</span>
+          <span class="stat-value orange" id="statLiq">&#8212;&#8212;</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Supply</span>
+          <span class="stat-value">1B XENO</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Tax</span>
+          <span class="stat-value green">0 / 0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prova de Confiança -->
+    <section class="trust-section" id="trust">
+      <div class="section-title">Prova de <span>Confian&ccedil;a</span></div>
+      <p class="section-desc">
+        Transpar&ecirc;ncia total. Verifique tudo on-chain.
+      </p>
+
+      <!-- Verification Board -->
+      <div class="trust-board">
+        <div class="trust-board-header">
+          <span class="trust-board-tag"
+            >Verifica&ccedil;&atilde;o On-Chain</span
+          >
+          <span class="trust-board-time">Atualizado: Ago 2026</span>
+        </div>
+
+        <div class="trust-row-item">
+          <div class="tri-icon ig">LQ</div>
+          <div class="tri-info">
+            <span class="tri-label">Liquidity Lock</span>
+            <span class="tri-sub"
+              >Pool bloqueada permanentemente via Streamflow Finance</span
+            >
+          </div>
+          <span class="trust-badge t-verified">&#10003; Verificado</span>
+          <a
+            href="https://app.streamflow.finance/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tri-link"
+            >Ver &#8599;</a
+          >
+        </div>
+
+        <div class="trust-row-item">
+          <div class="tri-icon ip">CT</div>
+          <div class="tri-info">
+            <span class="tri-label">Contrato Renounced</span>
+            <span class="tri-sub"
+              >Owner renunciou — nenhuma fun&ccedil;&atilde;o administrativa
+              ativa</span
+            >
+          </div>
+          <span class="trust-badge t-renounced">&#9651; Renounced</span>
+          <a
+            href="https://solscan.io/token/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tri-link"
+            >Solscan &#8599;</a
+          >
+        </div>
+
+        <div class="trust-row-item">
+          <div class="tri-icon ib">TK</div>
+          <div class="tri-info">
+            <span class="tri-label">Token On-Chain</span>
+            <span class="tri-sub"
+              >Verificado no Solscan — metadados e transa&ccedil;&otilde;es
+              p&uacute;blicas</span
+            >
+          </div>
+          <span class="trust-badge t-active">&#9679; Ativo</span>
+          <a
+            href="https://solscan.io/token/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tri-link"
+            >Ver &#8599;</a
+          >
+        </div>
+
+        <div class="trust-row-item">
+          <div class="tri-icon ir">BN</div>
+          <div class="tri-info">
+            <span class="tri-label">Supply Burn</span>
+            <span class="tri-sub"
+              >5% do supply total enviado para endere&ccedil;o morto — queimas
+              mensais</span
+            >
+          </div>
+          <span class="trust-badge t-verified">&#10003; 5% Burned</span>
+          <span class="tri-link tri-link-hidden">&#8212;</span>
+        </div>
+
+        <div class="trust-row-item">
+          <div class="tri-icon io">AU</div>
+          <div class="tri-info">
+            <span class="tri-label">Audit de Seguran&ccedil;a</span>
+            <span class="tri-sub"
+              >An&aacute;lise de vulnerabilidades do contrato em andamento</span
+            >
+          </div>
+          <span class="trust-badge t-pending">&#9711; Em breve</span>
+          <span class="tri-link tri-link-hidden">&#8212;</span>
+        </div>
+
+        <div class="trust-row-item">
+          <div class="tri-icon ib">DX</div>
+          <div class="tri-info">
+            <span class="tri-label">DexScreener</span>
+            <span class="tri-sub"
+              >Chart em tempo real — liquidez, volume e pre&ccedil;o ao
+              vivo</span
+            >
+          </div>
+          <span class="trust-badge t-active">&#9679; Ao Vivo</span>
+          <a
+            href="https://dexscreener.com/solana/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tri-link"
+            >Chart &#8599;</a
+          >
+        </div>
+      </div>
+
+      <!-- Metric Counters -->
+      <div class="trust-counters">
+        <div class="trust-counter">
+          <strong id="trustHolders">&#8212;&#8212;</strong>
+          <span>Holders</span>
+        </div>
+        <div class="trust-counter">
+          <strong>5%</strong>
+          <span>Supply Burned</span>
+        </div>
+        <div class="trust-counter">
+          <strong>0 / 0</strong>
+          <span>Buy / Sell Tax</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tokenomics -->
+    <section class="tokenomics" id="tokenomics">
+      <div class="section-title">Token<span>omics</span></div>
+      <p class="section-desc">
+        Supply total: 1.000.000.000 $XENO &mdash; Sem mintagem adicional
+      </p>
+      <div class="tknm-grid">
+        <!-- Donut Chart + Burn Tracker -->
+        <div>
+          <div class="tknm-donut">
+            <svg viewBox="0 0 100 100">
+              <!-- Pool / Liquidez 50% — azul -->
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                fill="none"
+                stroke="#c47bb8"
+                stroke-width="18"
+                stroke-dasharray="125.7 251.3"
+                stroke-dashoffset="0"
+              />
+              <!-- Marketing 20% — laranja -->
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                fill="none"
+                stroke="#f7931a"
+                stroke-width="18"
+                stroke-dasharray="50.3 251.3"
+                stroke-dashoffset="-125.7"
+              />
+              <!-- Staking 15% — verde -->
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                fill="none"
+                stroke="#4cff72"
+                stroke-width="18"
+                stroke-dasharray="37.7 251.3"
+                stroke-dashoffset="-176.0"
+              />
+              <!-- Comunidade 10% — roxo -->
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                fill="none"
+                stroke="#9b5fff"
+                stroke-width="18"
+                stroke-dasharray="25.1 251.3"
+                stroke-dashoffset="-213.7"
+              />
+              <!-- Time 5% — vermelho -->
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                fill="none"
+                stroke="#ff2a2a"
+                stroke-width="18"
+                stroke-dasharray="12.6 251.3"
+                stroke-dashoffset="-238.8"
+              />
+            </svg>
+            <div class="tknm-center">
+              <img
+                src="images/CAT 01.jpg"
+                alt="Xeno Cat"
+                class="tknm-center-avatar"
+                id="tkAvatar"
+              />
+              <strong>1B</strong>
+              <span>Supply</span>
+            </div>
+          </div>
+          <!-- Burn Tracker -->
+          <div class="burn-tracker">
+            <h4>Burn Tracker</h4>
+            <div class="burn-amount" id="burnCounter">50,000,000</div>
+            <div class="burn-bar-wrap">
+              <div class="burn-bar-fill" id="burnBar" style="width: 5%"></div>
+            </div>
+            <div class="burn-sub">
+              5% do supply total queimado &bull; Queimas mensais
+            </div>
+          </div>
+        </div>
+        <!-- Legenda -->
+        <div>
+          <div class="tknm-legend">
+            <div class="tknm-legend-item">
+              <div class="tknm-dot c1"></div>
+              <div class="tknm-legend-info">
+                <div class="tknm-legend-name">Pool de Liquidez</div>
+                <div class="tknm-legend-sub">Bloqueada permanentemente</div>
+                <div class="tknm-bar c1"></div>
+              </div>
+              <div class="tknm-legend-pct">50%</div>
+            </div>
+            <div class="tknm-legend-item">
+              <div class="tknm-dot c2"></div>
+              <div class="tknm-legend-info">
+                <div class="tknm-legend-name">Marketing &amp; Dev</div>
+                <div class="tknm-legend-sub">Vesting 12 meses</div>
+                <div class="tknm-bar c2"></div>
+              </div>
+              <div class="tknm-legend-pct">20%</div>
+            </div>
+            <div class="tknm-legend-item">
+              <div class="tknm-dot c3"></div>
+              <div class="tknm-legend-info">
+                <div class="tknm-legend-name">Staking Rewards</div>
+                <div class="tknm-legend-sub">
+                  Distribu&iacute;do em 24 meses
+                </div>
+                <div class="tknm-bar c3"></div>
+              </div>
+              <div class="tknm-legend-pct">15%</div>
+            </div>
+            <div class="tknm-legend-item">
+              <div class="tknm-dot c4"></div>
+              <div class="tknm-legend-info">
+                <div class="tknm-legend-name">Comunidade &amp; Airdrops</div>
+                <div class="tknm-legend-sub">Holder rewards e eventos</div>
+                <div class="tknm-bar c4"></div>
+              </div>
+              <div class="tknm-legend-pct">10%</div>
+            </div>
+            <div class="tknm-legend-item">
+              <div class="tknm-dot c5"></div>
+              <div class="tknm-legend-info">
+                <div class="tknm-legend-name">Time</div>
+                <div class="tknm-legend-sub">Lock 6 meses</div>
+                <div class="tknm-bar c5"></div>
+              </div>
+              <div class="tknm-legend-pct">5%</div>
+            </div>
+          </div>
+          <div class="tknm-facts-row">
+            <div class="tknm-fact-chip">
+              <strong>0%</strong><span>Buy Tax</span>
+            </div>
+            <div class="tknm-fact-chip">
+              <strong>0%</strong><span>Sell Tax</span>
+            </div>
+            <div class="tknm-fact-chip">
+              <strong>Sim</strong><span>Renounced</span>
+            </div>
+            <div class="tknm-fact-chip">
+              <strong>5%</strong><span>Burned</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      /* Remove fundo branco + anel externo do avatar do tokenomics via Canvas */
+      (function () {
+        var img = document.getElementById("tkAvatar");
+        function process() {
+          var sz = 300;
+          var canvas = document.createElement("canvas");
+          canvas.width = sz;
+          canvas.height = sz;
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, sz, sz);
+          var id = ctx.getImageData(0, 0, sz, sz);
+          var d = id.data;
+          var cx = sz / 2,
+            cy = sz / 2,
+            r = sz / 2;
+          for (var y = 0; y < sz; y++) {
+            for (var x = 0; x < sz; x++) {
+              var i = (y * sz + x) * 4;
+              var R = d[i],
+                G = d[i + 1],
+                B = d[i + 2];
+              var dx = x - cx,
+                dy = y - cy;
+              var dist = Math.sqrt(dx * dx + dy * dy) / r;
+              /* remover pixels brancos (fundo do JPG) */
+              if (R > 220 && G > 220 && B > 220) {
+                d[i + 3] = 0;
+                continue;
+              }
+              /* fade e remoção do anel externo roxo */
+              if (dist > 0.78) {
+                d[i + 3] = 0;
+              } else if (dist > 0.6) {
+                d[i + 3] = Math.round((1 - (dist - 0.6) / 0.18) * 255);
+              }
+            }
+          }
+          ctx.putImageData(id, 0, 0);
+          img.src = canvas.toDataURL("image/png");
+          img.style.borderRadius = "50%";
+          img.style.background = "transparent";
+        }
+        if (img) {
+          if (img.complete) process();
+          else img.onload = process;
+        }
+      })();
+    </script>
+
+    <!-- Como Comprar -->
+    <section class="how-to-buy" id="como-comprar">
+      <div class="section-title">Como <span>Comprar</span></div>
+      <p class="section-desc">
+        4 passos simples para entrar no ecossistema Xeno Cat
+      </p>
+      <div class="htb-steps">
+        <div class="htb-step">
+          <div class="htb-num">1</div>
+          <h4>Crie uma Wallet Solana</h4>
+          <p>
+            Baixe
+            <a
+              href="https://phantom.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Phantom</a
+            >
+            ou
+            <a
+              href="https://solflare.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Solflare</a
+            >
+            no celular ou como extens&atilde;o do browser. Guarde sua seed
+            phrase em local seguro.
+          </p>
+        </div>
+        <div class="htb-step">
+          <div class="htb-num">2</div>
+          <h4>Compre SOL</h4>
+          <p>
+            Adquira SOL na
+            <a
+              href="https://www.coinbase.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Coinbase</a
+            >,
+            <a
+              href="https://www.binance.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Binance</a
+            >
+            ou qualquer exchange e transfira para sua wallet Phantom/Solflare.
+          </p>
+        </div>
+        <div class="htb-step">
+          <div class="htb-num">3</div>
+          <h4>Acesse o Jupiter</h4>
+          <p>
+            V&aacute; para
+            <a href="https://jup.ag" target="_blank" rel="noopener noreferrer"
+              >jup.ag</a
+            >, conecte sua wallet e cole o Contract Address do $XENO no campo de
+            busca para encontrar o par.
+          </p>
+        </div>
+        <div class="htb-step">
+          <div class="htb-num">4</div>
+          <h4>Swap SOL &#8594; $XENO</h4>
+          <p>
+            Defina a quantidade, configure o slippage (recomendamos 1&ndash;3%)
+            e confirme a transa&ccedil;&atilde;o. Bem-vindo &agrave;
+            Col&ocirc;nia!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3D Gallery -->
+    <section class="gallery-3d" id="galeria">
+      <div class="gallery-title">Galeria das <span>Esp&eacute;cies</span></div>
+      <p class="gallery-desc">
+        9 esp&eacute;cies descobertas na Col&ocirc;nia Xeno Cat &mdash;
+        <strong class="gallery-desc-highlight"
+          >a comunidade escolhe os nomes.</strong
+        >
+        Vote com seus likes e envie sugest&otilde;es no Telegram.
+      </p>
+      <div class="gallery-name-banner">
+        <span class="gnb-label">Como nomear</span>
+        <span class="gnb-sep">&#8212;</span>
+        <span class="gnb-text"
+          >Curta sua esp&eacute;cie favorita e sugira um nome no canal oficial.
+          As 9 mais curtidas ser&atilde;o nomeadas pela comunidade.</span
+        >
+        <a
+          href="https://t.me/xanoalien"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="gnb-link"
+          >Telegram &#8599;</a
+        >
+      </div>
+      <div class="gallery-grid">
+        <div class="crystal-panel">
+          <img
+            src="images/ep8-supreme-reign.jpg"
+            alt="Episode 8: The Supreme Reign"
+            class="panel-img"
+          />
+          <div class="panel-label">Criatura I</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-curtir panel-curtir"
+              data-criatura="Criatura I"
+            >
+              &#9829; Curtir</button
+            ><button class="btn btn-status" disabled>
+              Online<span class="loading-dots dots-color"
+                ><span></span><span></span><span></span
+              ></span>
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel">
+          <img
+            src="images/ep3-loyalty-trial.jpg"
+            alt="Episode 3: Loyalty Trial"
+            class="panel-img"
+          />
+          <div class="panel-label">Criatura II</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-curtir panel-curtir"
+              data-criatura="Criatura II"
+            >
+              &#9829; Curtir</button
+            ><button class="btn btn-status" disabled>
+              Online<span class="loading-dots dots-color"
+                ><span></span><span></span><span></span
+              ></span>
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel">
+          <img
+            src="images/ep4-hyper-speed-mind.jpg"
+            alt="Episode 4: Hyper-Speed Mind"
+            class="panel-img"
+          />
+          <div class="panel-label">Criatura III</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-curtir panel-curtir"
+              data-criatura="Criatura III"
+            >
+              &#9829; Curtir</button
+            ><button class="btn btn-status" disabled>
+              Online<span class="loading-dots dots-color"
+                ><span></span><span></span><span></span
+              ></span>
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel">
+          <img
+            src="images/ep5-furious-heroes.jpg"
+            alt="Episode 5: Furious Heroes"
+            class="panel-img"
+          />
+          <div class="panel-label">Criatura IV</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-curtir panel-curtir"
+              data-criatura="Criatura IV"
+            >
+              &#9829; Curtir</button
+            ><button class="btn btn-status" disabled>
+              Online<span class="loading-dots dots-color"
+                ><span></span><span></span><span></span
+              ></span>
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel">
+          <img
+            src="images/ep7-animal-revolution.jpg"
+            alt="Episode 7: The Animal Revolution"
+            class="panel-img"
+          />
+          <div class="panel-label">Criatura V</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-curtir panel-curtir"
+              data-criatura="Criatura V"
+            >
+              &#9829; Curtir</button
+            ><button class="btn btn-status" disabled>
+              Online<span class="loading-dots dots-color"
+                ><span></span><span></span><span></span
+              ></span>
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel">
+          <img
+            src="images/ep5-long-vigil.jpg"
+            alt="Episode 5: The Long Vigil"
+            class="panel-img"
+          />
+          <div class="panel-label">Criatura VI</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-curtir panel-curtir"
+              data-criatura="Criatura VI"
+            >
+              &#9829; Curtir</button
+            ><button class="btn btn-status" disabled>
+              Online<span class="loading-dots dots-color"
+                ><span></span><span></span><span></span
+              ></span>
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel">
+          <img
+            src="images/ep4-against-dark.jpg"
+            alt="Episode 4: Against the Dark"
+            class="panel-img"
+          />
+          <div class="panel-label">Criatura VII</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-curtir panel-curtir"
+              data-criatura="Criatura VII"
+            >
+              &#9829; Curtir</button
+            ><button class="btn btn-status" disabled>
+              Online<span class="loading-dots dots-color"
+                ><span></span><span></span><span></span
+              ></span>
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel">
+          <img
+            src="images/ep1-first-shadow.jpg"
+            alt="Episode 1: The First Shadow"
+            class="panel-img"
+          />
+          <div class="panel-label">Criatura VIII</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-curtir panel-curtir"
+              data-criatura="Criatura VIII"
+            >
+              &#9829; Curtir</button
+            ><button class="btn btn-status" disabled>
+              Online<span class="loading-dots dots-color"
+                ><span></span><span></span><span></span
+              ></span>
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel">
+          <img
+            src="images/ep1-genesis.jpg"
+            alt="Episode 1: The Genesis"
+            class="panel-img"
+          />
+          <div class="panel-label">Criatura IX</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-curtir panel-curtir"
+              data-criatura="Criatura IX"
+            >
+              &#9829; Curtir</button
+            ><button class="btn btn-status" disabled>
+              Online<span class="loading-dots dots-color"
+                ><span></span><span></span><span></span
+              ></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Win7 Desktop Folders -->
+    <div class="win7-desktop" id="win7Desktop">
+      <div class="win7-folder" id="folder1" style="top: 12%; left: 3%">
+        <div class="folder-icon">
+          <svg
+            viewBox="0 0 56 44"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 8C0 5.79 1.79 4 4 4H20L25 10H52C54.21 10 56 11.79 56 14V40C56 42.21 54.21 44 52 44H4C1.79 44 0 42.21 0 40V8Z"
+              fill="url(#fg1)"
+            />
+            <path
+              d="M0 6C0 3.79 1.79 2 4 2H18L23 8H4C1.79 8 0 9.79 0 12V6Z"
+              fill="url(#ft1)"
+            />
+            <defs>
+              <linearGradient
+                id="fg1"
+                x1="0"
+                y1="10"
+                x2="56"
+                y2="44"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffd04e" />
+                <stop offset="1" stop-color="#d4860a" />
+              </linearGradient>
+              <linearGradient
+                id="ft1"
+                x1="0"
+                y1="2"
+                x2="23"
+                y2="8"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffe480" />
+                <stop offset="1" stop-color="#f0a020" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="folder-shine"></div>
+        </div>
+        <span class="folder-name" contenteditable="true">Nova Pasta</span>
+      </div>
+
+      <div class="win7-folder" id="folder2" style="top: 35%; right: 3%">
+        <div class="folder-icon">
+          <svg
+            viewBox="0 0 56 44"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 8C0 5.79 1.79 4 4 4H20L25 10H52C54.21 10 56 11.79 56 14V40C56 42.21 54.21 44 52 44H4C1.79 44 0 42.21 0 40V8Z"
+              fill="url(#fg2)"
+            />
+            <path
+              d="M0 6C0 3.79 1.79 2 4 2H18L23 8H4C1.79 8 0 9.79 0 12V6Z"
+              fill="url(#ft2)"
+            />
+            <defs>
+              <linearGradient
+                id="fg2"
+                x1="0"
+                y1="10"
+                x2="56"
+                y2="44"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffd04e" />
+                <stop offset="1" stop-color="#d4860a" />
+              </linearGradient>
+              <linearGradient
+                id="ft2"
+                x1="0"
+                y1="2"
+                x2="23"
+                y2="8"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffe480" />
+                <stop offset="1" stop-color="#f0a020" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="folder-shine"></div>
+        </div>
+        <span class="folder-name" contenteditable="true">Nova Pasta</span>
+      </div>
+
+      <div class="win7-folder" id="folder3" style="top: 62%; left: 4%">
+        <div class="folder-icon">
+          <svg
+            viewBox="0 0 56 44"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 8C0 5.79 1.79 4 4 4H20L25 10H52C54.21 10 56 11.79 56 14V40C56 42.21 54.21 44 52 44H4C1.79 44 0 42.21 0 40V8Z"
+              fill="url(#fg3)"
+            />
+            <path
+              d="M0 6C0 3.79 1.79 2 4 2H18L23 8H4C1.79 8 0 9.79 0 12V6Z"
+              fill="url(#ft3)"
+            />
+            <defs>
+              <linearGradient
+                id="fg3"
+                x1="0"
+                y1="10"
+                x2="56"
+                y2="44"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffd04e" />
+                <stop offset="1" stop-color="#d4860a" />
+              </linearGradient>
+              <linearGradient
+                id="ft3"
+                x1="0"
+                y1="2"
+                x2="23"
+                y2="8"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffe480" />
+                <stop offset="1" stop-color="#f0a020" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="folder-shine"></div>
+        </div>
+        <span class="folder-name" contenteditable="true">Nova Pasta</span>
+      </div>
+
+      <div class="win7-folder" id="folder4" style="top: 80%; right: 4%">
+        <div class="folder-icon">
+          <svg
+            viewBox="0 0 56 44"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 8C0 5.79 1.79 4 4 4H20L25 10H52C54.21 10 56 11.79 56 14V40C56 42.21 54.21 44 52 44H4C1.79 44 0 42.21 0 40V8Z"
+              fill="url(#fg4)"
+            />
+            <path
+              d="M0 6C0 3.79 1.79 2 4 2H18L23 8H4C1.79 8 0 9.79 0 12V6Z"
+              fill="url(#ft4)"
+            />
+            <defs>
+              <linearGradient
+                id="fg4"
+                x1="0"
+                y1="10"
+                x2="56"
+                y2="44"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffd04e" />
+                <stop offset="1" stop-color="#d4860a" />
+              </linearGradient>
+              <linearGradient
+                id="ft4"
+                x1="0"
+                y1="2"
+                x2="23"
+                y2="8"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffe480" />
+                <stop offset="1" stop-color="#f0a020" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="folder-shine"></div>
+        </div>
+        <span class="folder-name" contenteditable="true">Nova Pasta</span>
+      </div>
+    </div>
+
+    <!-- Utilidade -->
+    <section class="utility-section" id="utilidade">
+      <div class="section-title">Utili<span>dade</span></div>
+      <p class="section-desc">
+        O que diferencia $XENO de mais um meme &mdash; ecossistema crescente
+      </p>
+      <div class="utility-grid">
+        <!-- N&iacute;vel 1 -->
+        <div class="utility-card acc-blue">
+          <div class="utility-icon">&#x2B21;</div>
+          <h4>Staking</h4>
+          <p>
+            Fa&ccedil;a stake dos seus $XENO e ganhe recompensas passivas. APY
+            vari&aacute;vel conforme o TVL do pool. Conecte sua wallet e comece
+            agora.
+          </p>
+          <span class="utility-badge badge-soon">&#9679; Em breve</span>
+        </div>
+        <div class="utility-card acc-live">
+          <div class="utility-icon">&#x2726;</div>
+          <h4>Burn Mensal</h4>
+          <p>
+            A cada m&ecirc;s uma porcenta&shy;gem da treasury &eacute; queimada
+            permanentemente, reduzindo o supply e gerando press&atilde;o
+            deflacion&aacute;ria.
+          </p>
+          <span class="utility-badge badge-live">&#9679; Ativo</span>
+        </div>
+        <div class="utility-card acc-blue">
+          <div class="utility-icon">&#x25C8;</div>
+          <h4>Meme Gallery</h4>
+          <p>
+            Crie e submeta memes do $XENO. Os mais curtidos pela comunidade
+            ganham tokens. Arte impulsionada por holders.
+          </p>
+          <span class="utility-badge badge-soon">Em breve</span>
+        </div>
+        <div class="utility-card acc-live">
+          <div class="utility-icon">&#x25C6;</div>
+          <h4>Tip Jar</h4>
+          <p>
+            Envie $XENO para criadores de conte&uacute;do, artistas e
+            desenvolvedores que contribuem com o ecossistema diretamente.
+          </p>
+          <span class="utility-badge badge-live">&#9679; Ativo</span>
+        </div>
+        <!-- N&iacute;vel 2 -->
+        <div class="utility-card acc-orange">
+          <div class="utility-icon">&#x2295;</div>
+          <h4>Trading Bot</h4>
+          <p>
+            Integra&ccedil;&atilde;o com bot de trading no Telegram. Alertas de
+            pre&ccedil;o, sniper e gerenciamento de posi&ccedil;&atilde;o com
+            $XENO como gas preferencial.
+          </p>
+          <span class="utility-badge badge-q3">Q3 2026</span>
+        </div>
+        <div class="utility-card acc-orange">
+          <div class="utility-icon">&#x25C9;</div>
+          <h4>Mini-Game &amp; Quests</h4>
+          <p>
+            Jogue no browser, complete miss&otilde;es e ganhe $XENO. Quests
+            di&aacute;rias, rankings e recompensas para top holders.
+          </p>
+          <span class="utility-badge badge-q3">Q3 2026</span>
+        </div>
+        <div class="utility-card acc-purple">
+          <div class="utility-icon">&#x25A3;</div>
+          <h4>NFT Collection</h4>
+          <p>
+            Cole&ccedil;&atilde;o de NFTs com utilidade real: acesso a canal
+            exclusivo, descontos na loja e whitelist de launches futuros.
+          </p>
+          <span class="utility-badge badge-q4">Q4 2026</span>
+        </div>
+        <div class="utility-card acc-purple">
+          <div class="utility-icon">&#x25B3;</div>
+          <h4>Launchpad</h4>
+          <p>
+            Holders de $XENO ter&atilde;o acesso preferencial a
+            lan&ccedil;amentos de projetos parceiros. Curadoria da comunidade +
+            DEX integrada.
+          </p>
+          <span class="utility-badge badge-q4">Q4 2026</span>
+        </div>
+      </div>
+
+      <!-- Staking Panel Preview -->
+      <div class="staking-panel">
+        <div class="staking-header">
+          <h4>Staking $XENO</h4>
+          <div class="staking-apy">142%</div>
+          <div class="staking-apy-label">APY estimado</div>
+        </div>
+        <div class="staking-stats">
+          <div class="staking-stat">
+            <span class="s-val">8.4M</span>
+            <span class="s-lbl">Total Staked</span>
+          </div>
+          <div class="staking-divider"></div>
+          <div class="staking-stat">
+            <span class="s-val">247</span>
+            <span class="s-lbl">Stakers</span>
+          </div>
+        </div>
+        <div class="staking-body">
+          <div class="staking-row">
+            <input
+              type="number"
+              placeholder="Quantidade de $XENO"
+              id="stakeAmount"
+              min="0"
+            />
+            <button class="btn btn-primary" id="stakeBtn">Stake</button>
+          </div>
+          <p class="staking-note">
+            Conecte sua wallet para participar &bull; Sem lock period
+          </p>
+        </div>
+      </div>
+
+      <!-- Tip Jar -->
+      <div class="tipjar-wrap">
+        <div class="section-title tipjar-title">Tip Jar</div>
+        <p class="tipjar-sub">Envie $XENO diretamente para apoiar o projeto</p>
+        <div class="tipjar-box">
+          <span class="tipjar-addr" id="tipAddress"
+            >XeNoXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxX</span
+          >
+          <button class="ca-copy" id="tipCopyBtn">Copiar</button>
+        </div>
+      </div>
+
+      <!-- Meme Gallery -->
+      <div class="meme-subsection">
+        <div class="section-title meme-subsection-title">
+          Meme <span>Gallery</span>
+        </div>
+        <p class="section-desc">
+          Os memes mais curtidos ganham tokens mensalmente
+        </p>
+        <div class="meme-gallery" id="memeGallery">
+          <div class="meme-card">&#x25C8;</div>
+          <div class="meme-card">&#x25C6;</div>
+          <div class="meme-card">&#x25C9;</div>
+          <div class="meme-card">&#x2295;</div>
+          <div class="meme-card">&#x25B3;</div>
+          <div class="meme-card">&#x25A3;</div>
+          <div class="meme-card">&#x2726;</div>
+          <div class="meme-card add-card">
+            <span class="meme-add-icon">+</span>
+            <span>Submeter</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section class="roadmap-section" id="roadmap">
+      <div class="section-title">Road<span>map</span></div>
+      <p class="section-desc">
+        Evolu&ccedil;&atilde;o transparente e realista &mdash; cada fase
+        verific&aacute;vel on-chain
+      </p>
+      <div class="roadmap-track">
+        <div class="rm-item done">
+          <div class="rm-phase">Fase 0 &mdash; Conclu&iacute;do</div>
+          <h4>Genesis</h4>
+          <ul>
+            <li>Deploy do contrato na Solana</li>
+            <li>Cria&ccedil;&atilde;o do site oficial</li>
+            <li>Redes sociais ativas (X, Telegram, Discord)</li>
+            <li>Liquidez inicial adicionada</li>
+          </ul>
+        </div>
+        <div class="rm-item active">
+          <div class="rm-phase">Fase 1 &mdash; Atual</div>
+          <h4>Crescimento de Comunidade</h4>
+          <ul>
+            <li>Campanha de airdrops para early holders</li>
+            <li>Lista&ccedil;&atilde;o no DexScreener e CoinGecko</li>
+            <li>Burn tracker p&uacute;blico no site</li>
+            <li>Meme contest com pr&ecirc;mio em $XENO</li>
+            <li>Primeiro burn mensal (5% da treasury)</li>
+          </ul>
+        </div>
+        <div class="rm-item upcoming">
+          <div class="rm-phase">Fase 2 &mdash; Q3 2026</div>
+          <h4>Utilidade &amp; Integra&ccedil;&otilde;es</h4>
+          <ul>
+            <li>Staking com APY para holders</li>
+            <li>Bot de trading no Telegram</li>
+            <li>Mini-game browser com quests di&aacute;rias</li>
+            <li>Parceria com outros projetos Solana</li>
+          </ul>
+        </div>
+        <div class="rm-item upcoming">
+          <div class="rm-phase">Fase 3 &mdash; Q4 2026</div>
+          <h4>NFT &amp; Launchpad</h4>
+          <ul>
+            <li>
+              Cole&ccedil;&atilde;o NFT Xeno Cat (holders = acesso exclusivo)
+            </li>
+            <li>Launchpad com curadoria da comunidade</li>
+            <li>Lista&ccedil;&atilde;o em exchange centralizada</li>
+            <li>Integra&ccedil;&atilde;o com ecossistema maior da Solana</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dicionário IA -->
+    <section class="dicionario-section" id="dicionario">
+      <div class="section-title">Dicion&aacute;rio <span>IA</span></div>
+      <p class="section-desc">
+        Termos do universo cripto, Web3 e Xeno Cat — explicados de forma simples
+        pela IA da Col&ocirc;nia
+      </p>
+
+      <div class="dic-search-wrap">
+        <input
+          type="text"
+          class="dic-search"
+          id="dicSearch"
+          placeholder="Pesquisar termo... ex: Staking, NFT, CA, Liquidity..."
+          autocomplete="off"
+        />
+        <button class="btn btn-primary dic-ask-btn" id="dicAskBtn">
+          Perguntar
+        </button>
+      </div>
+
+      <div class="dic-grid" id="dicGrid">
+        <div class="dic-card">
+          <div class="dic-term">CA</div>
+          <div class="dic-def">
+            Contract Address — o endere&ccedil;o &uacute;nico do token na
+            blockchain. &Eacute; como o CPF do seu coin. Use-o para encontrar
+            $XENO no Jupiter ou Raydium.
+          </div>
+        </div>
+        <div class="dic-card">
+          <div class="dic-term">Staking</div>
+          <div class="dic-def">
+            Processo de travar seus tokens em um protocolo para ganhar
+            recompensas passivas (APY). Quanto mais tempo e quantidade, maiores
+            os juros.
+          </div>
+        </div>
+        <div class="dic-card">
+          <div class="dic-term">Liquidity Pool</div>
+          <div class="dic-def">
+            Reserva de tokens bloqueada em uma DEX que permite que outros
+            usu&aacute;rios fa&ccedil;am swap. Sem liquidez, n&atilde;o
+            h&aacute; troca. A do $XENO est&aacute; bloqueada permanentemente.
+          </div>
+        </div>
+        <div class="dic-card">
+          <div class="dic-term">Renounced</div>
+          <div class="dic-def">
+            Quando o criador abre m&atilde;o das fun&ccedil;&otilde;es
+            administrativas do contrato. Ningu&eacute;m mais pode mintar tokens,
+            pausar ou alterar regras. Sinal de seguran&ccedil;a.
+          </div>
+        </div>
+        <div class="dic-card">
+          <div class="dic-term">Burn</div>
+          <div class="dic-def">
+            Destrui&ccedil;&atilde;o permanente de tokens enviando-os para um
+            endere&ccedil;o inacess&iacute;vel. Reduz o supply total e cria
+            press&atilde;o deflacion&aacute;ria no pre&ccedil;o.
+          </div>
+        </div>
+        <div class="dic-card">
+          <div class="dic-term">Slippage</div>
+          <div class="dic-def">
+            Diferen&ccedil;a aceit&aacute;vel entre o pre&ccedil;o esperado e o
+            executado numa troca. Em tokens com baixa liquidez, recomenda-se
+            1&ndash;3% para garantir que o swap seja conclu&iacute;do.
+          </div>
+        </div>
+        <div class="dic-card">
+          <div class="dic-term">DEX</div>
+          <div class="dic-def">
+            Decentralized Exchange — corretora descentralizada onde voc&ecirc;
+            troca tokens direto da sua wallet, sem interm&eacute;diarios.
+            Jupiter e Raydium s&atilde;o DEXs na Solana.
+          </div>
+        </div>
+        <div class="dic-card">
+          <div class="dic-term">Airdrop</div>
+          <div class="dic-def">
+            Distribui&ccedil;&atilde;o gratuita de tokens para uma lista de
+            carteiras. Projetos usam airdrops para recompensar early adopters e
+            aumentar o n&uacute;mero de holders.
+          </div>
+        </div>
+        <div class="dic-card">
+          <div class="dic-term">APY</div>
+          <div class="dic-def">
+            Annual Percentage Yield — rendimento percentual anual do staking,
+            incluindo juros compostos. Um APY de 142% significa que voc&ecirc;
+            dobra seu capital em menos de 1 ano travando tokens.
+          </div>
+        </div>
+        <div class="dic-card">
+          <div class="dic-term">Holder</div>
+          <div class="dic-def">
+            Qualquer pessoa que possui uma quantidade de determinado token na
+            carteira. Quanto mais holders, mais descentralizado e forte &eacute;
+            o projeto.
+          </div>
+        </div>
+        <div class="dic-card">
+          <div class="dic-term">Market Cap</div>
+          <div class="dic-def">
+            Capitaliza&ccedil;&atilde;o de mercado = pre&ccedil;o atual &times;
+            supply circulante. &Eacute; o principal indicador do tamanho de um
+            token no mercado.
+          </div>
+        </div>
+        <div class="dic-card">
+          <div class="dic-term">NFT</div>
+          <div class="dic-def">
+            Non-Fungible Token — token &uacute;nico e indivisível que representa
+            propriedade digital de uma arte, item ou acesso. Cada NFT Xeno Cat
+            d&aacute; acesso a benef&iacute;cios exclusivos na Col&ocirc;nia.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Community -->
+    <section class="community" id="comunidade">
+      <h2>Junte-se à Colônia</h2>
+      <p>
+        Entre no Telegram oficial para drops exclusivos, atualizações de estoque
+        e discussões sobre o universo Xeno Cat.
+      </p>
+      <div class="community-links">
+        <a
+          href="https://t.me/xanoalien"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-loading"
+          >Telegram<span class="loading-dots"
+            ><span></span><span></span><span></span></span
+        ></a>
+        <a
+          href="https://x.com/XenoSupport_"
+          target="_blank"
+          rel="noopener"
+          class="btn"
+          >X / Twitter</a
+        >
+        <a
+          href="https://discord.gg/xanoalien"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-loading"
+          >Discord<span class="loading-dots"
+            ><span></span><span></span><span></span></span
+        ></a>
+      </div>
+    </section>
+
+    <!-- Diversão -->
+    <section
+      id="diversao"
+      style="
+        padding: 5rem 1.5rem 4rem;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+      "
+    >
+      <h2
+        style="
+          font-size: clamp(1.6rem, 4vw, 2.4rem);
+          color: #ffb347;
+          text-shadow: 0 0 24px rgba(255, 179, 71, 0.5);
+          margin-bottom: 0.5rem;
+        "
+      >
+        🎮 Xeno Cat ZIP
+      </h2>
+      <p
+        style="
+          color: var(--text-muted);
+          font-size: 0.95rem;
+          margin-bottom: 1.5rem;
+          line-height: 1.7;
+        "
+      >
+        Conecte os números em ordem no grid — sem levantar o lápis!<br />
+        <span style="color: var(--text-secondary)"
+          >Toque no <strong>1</strong> para começar. 👾</span
+        >
+      </p>
+      <div
+        style="
+          background: transparent;
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0 16px 60px rgba(0, 0, 0, 0.7);
+          position: relative;
+        "
+      >
+        <iframe
+          src="animação 3d/AL JOGO XENO CAT/xenocat_zip.html"
+          title="Xeno Cat ZIP — Jogo"
+          width="100%"
+          height="700"
+          style="display: block; border: none; border-radius: 20px"
+          loading="lazy"
+          allow="fullscreen"
+        ></iframe>
+      </div>
+    </section>
+
+    <!-- Footer / Support -->
+    <footer id="suporte">
+      <strong>Suporte</strong>
+      <a href="mailto:suporte@xenocat.xyz" class="email">suporte@xenocat.xyz</a>
+      <p>© 2026 Xeno Cat. Todos os direitos reservados.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem">
+        Página demo. Integração real de pagamento (Stripe / Crypto) deve ser
+        configurada no backend.
+      </p>
+    </footer>
+
+    <!-- Product Modal -->
+    <div class="modal-overlay" id="productModal">
+      <div class="modal">
+        <button class="modal-close" id="closeProductModal">&times;</button>
+        <div class="modal-content">
+          <div class="modal-gallery">
+            <img src="data:," alt="" class="modal-main-img" id="modalMainImg" />
+            <div class="modal-thumbs" id="modalThumbs"></div>
+          </div>
+          <div class="modal-info">
+            <h2 id="modalTitle"></h2>
+            <div class="modal-price" id="modalPrice"></div>
+            <p id="modalDesc"></p>
+            <button class="btn btn-primary" id="modalBuyBtn">
+              Comprar Agora
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal-overlay" id="paymentModal">
+      <div class="modal" style="max-width: 420px">
+        <button class="modal-close" id="closePaymentModal">&times;</button>
+        <div class="payment-form">
+          <h2 id="payTitle">Finalizar Compra</h2>
+          <div class="price-tag" id="payPrice"></div>
+          <div class="form-group">
+            <label>Nome completo</label>
+            <input type="text" id="payName" placeholder="Seu nome" />
+          </div>
+          <div class="form-group">
+            <label>E-mail</label>
+            <input type="email" id="payEmail" placeholder="voce@email.com" />
+          </div>
+          <div class="form-group">
+            <label>Número do cartão (demo)</label>
+            <input
+              type="text"
+              id="payCard"
+              placeholder="4242 4242 4242 4242"
+              maxlength="19"
+            />
+          </div>
+          <div style="display: flex; gap: 0.75rem">
+            <div class="form-group" style="flex: 1">
+              <label>Validade</label>
+              <input type="text" placeholder="MM/AA" maxlength="5" />
+            </div>
+            <div class="form-group" style="flex: 1">
+              <label>CVV</label>
+              <input type="text" placeholder="123" maxlength="4" />
+            </div>
+          </div>
+          <div class="payment-actions">
+            <button class="btn btn-primary" id="payCardBtn">
+              Pagar com Cartão
+            </button>
+            <button class="btn btn-crypto" id="payCryptoBtn">
+              Pagar com Crypto
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      // ========== PRODUCT DATA ==========
+      const products = [
+        {
+          id: 1,
+          name: "Moletom Biomech",
+          price: 289,
+          currency: "R$",
+          short:
+            "Tecido preto com veias neon e detalhes tubulares biomechanical.",
+          full: "Moletom premium de alta qualidade com design biomechanical exclusivo. Costuras reforçadas, capuz com estrutura alienígena e padrões de veias neon que reagem à luz. Edição limitada da coleção Xeno Cat.",
+          images: [
+            "images/product-hoodie.jpg",
+            "images/product-case2.jpg",
+            "images/product-crown.jpg",
+            "images/product-blaster.jpg",
+          ],
+        },
+        {
+          id: 2,
+          name: "Capa Facehugger",
+          price: 119,
+          currency: "R$",
+          short:
+            "Capa de silicone 3D com organismo parasita em relevo e acabamento úmido.",
+          full: "Proteção de nível militar com estética alienígena. Silicone macio e detalhado, bordas luminosas em neon e textura úmida hiper-realista. Compatível com a maioria dos smartphones.",
+          images: [
+            "images/product-case1.jpg",
+            "images/product-case2.jpg",
+            "images/product-plush.jpg",
+            "images/product-egg.jpg",
+          ],
+        },
+        {
+          id: 3,
+          name: "Capa Alien Skull",
+          price: 109,
+          currency: "R$",
+          short: "Capa rígida com crânio biomechanical e olhos neon.",
+          full: "Design agressivo com crânio alongado em relevo profundo e olhos que brilham no escuro. Material resistente a impactos com acabamento fosco e detalhes metálicos.",
+          images: [
+            "images/product-case2.jpg",
+            "images/product-case1.jpg",
+            "images/product-figure.jpg",
+            "images/logo-icon.jpg",
+          ],
+        },
+        {
+          id: 4,
+          name: "Lâmpada Ovo Ácido",
+          price: 249,
+          currency: "R$",
+          short:
+            "Luminária LED em formato de ovo biomechanical com núcleo verde.",
+          full: "Luminária de mesa com casca translúcida preta e núcleo interno de LED azul elétrico. Ideal para ambientes dark e setups Web3. Controle de intensidade via toque.",
+          images: [
+            "images/product-lamp.jpg",
+            "images/product-egg.jpg",
+            "images/product-hoodie.jpg",
+            "images/product-watch.jpg",
+          ],
+        },
+        {
+          id: 5,
+          name: "Miniatura Criatura",
+          price: 159,
+          currency: "R$",
+          short:
+            "Figura colecionável de criatura biomechanical em pose de ataque.",
+          full: "Miniatura altamente detalhada em resina e metal. Acabamento metálico com detalhes neon. Base incluída. Edição limitada de 500 unidades numeradas.",
+          images: [
+            "images/product-figure.jpg",
+            "images/product-crown.jpg",
+            "images/product-blaster.jpg",
+            "images/product-poster.jpg",
+          ],
+        },
+        {
+          id: 6,
+          name: "Coroa Rainha",
+          price: 389,
+          currency: "R$",
+          short:
+            "Headpiece biomechanical com tubos, espinhos e LEDs integrados.",
+          full: "Peça de destaque para eventos e cosplay. Estrutura leve em polímero reforçado com tubos metálicos e iluminação neon. Ajustável e confortável para uso prolongado.",
+          images: [
+            "images/product-crown.jpg",
+            "images/product-figure.jpg",
+            "images/product-hoodie.jpg",
+            "images/product-lamp.jpg",
+          ],
+        },
+        {
+          id: 7,
+          name: "Réplica Ovo Alien",
+          price: 199,
+          currency: "R$",
+          short:
+            "Réplica realista de ovo com textura leathery e veias luminosas.",
+          full: "Réplica de alta fidelidade com textura rachada e veias que brilham sob luz negra. Perfeita para colecionadores e ambientação de estúdio.",
+          images: [
+            "images/product-egg.jpg",
+            "images/product-lamp.jpg",
+            "images/product-plush.jpg",
+            "images/product-case1.jpg",
+          ],
+        },
+        {
+          id: 8,
+          name: "Relógio Biomech",
+          price: 549,
+          currency: "R$",
+          short: "Smartwatch com pulseira tubular e interface neon.",
+          full: "Relógio inteligente com design biomechanical exclusivo. Tela AMOLED, monitoramento de saúde, notificações e modo always-on com tema Xeno Cat. Resistente à água.",
+          images: [
+            "images/product-watch.jpg",
+            "images/product-blaster.jpg",
+            "images/product-hoodie.jpg",
+            "images/product-crown.jpg",
+          ],
+        },
+        {
+          id: 9,
+          name: "Pôster NFT Print",
+          price: 89,
+          currency: "R$",
+          short:
+            "Print em edição limitada com arte biomechanical e elementos Web3.",
+          full: "Pôster em papel premium 300g com acabamento fosco. Inclui certificado de autenticidade e QR code que aponta para o NFT correspondente na blockchain. Moldura não inclusa.",
+          images: [
+            "images/product-poster.jpg",
+            "images/logo-icon.jpg",
+            "images/product-figure.jpg",
+            "images/product-case2.jpg",
+          ],
+        },
+        {
+          id: 10,
+          name: "Pelúcia Organismo",
+          price: 139,
+          currency: "R$",
+          short: "Pelúcia macia e detalhada de organismo biomechanical.",
+          full: "Pelúcia premium com bordados neon e texturas contrastantes. Macia o suficiente para abraçar, estranha o suficiente para impressionar. Ideal para fãs de sci-fi horror.",
+          images: [
+            "images/product-plush.jpg",
+            "images/product-case1.jpg",
+            "images/product-egg.jpg",
+            "images/product-lamp.jpg",
+          ],
+        },
+      ];
+
+      // ========== RENDER PRODUCTS ==========
+      const grid = document.getElementById("productsGrid");
+      if (grid)
+        products.forEach((p) => {
+          const card = document.createElement("article");
+          card.className = "product-card";
+          card.innerHTML = `
+        <div class="product-img-wrap">
+          <img src="${p.images[0]}" alt="${p.name}" loading="lazy" />
+        </div>
+        <div class="product-body">
+          <h3>${p.name}</h3>
+          <div class="product-price">${p.currency} ${p.price.toFixed(2).replace(".", ",")}</div>
+          <p class="product-desc">${p.short}</p>
+          <div class="product-actions">
+            <button class="btn" data-id="${p.id}" data-action="details">Detalhes</button>
+            <button class="btn btn-primary" data-id="${p.id}" data-action="buy">Comprar</button>
+          </div>
+        </div>
+      `;
+          grid.appendChild(card);
+        });
+
+      // ========== MODAL LOGIC ==========
+      let currentProduct = null;
+
+      function openProductModal(id) {
+        currentProduct = products.find((p) => p.id === id);
+        if (!currentProduct) return;
+
+        document.getElementById("modalTitle").textContent = currentProduct.name;
+        document.getElementById("modalPrice").textContent =
+          `${currentProduct.currency} ${currentProduct.price.toFixed(2).replace(".", ",")}`;
+        document.getElementById("modalDesc").textContent = currentProduct.full;
+        document.getElementById("modalMainImg").src = currentProduct.images[0];
+        document.getElementById("modalMainImg").alt = currentProduct.name;
+
+        const thumbs = document.getElementById("modalThumbs");
+        thumbs.innerHTML = "";
+        currentProduct.images.forEach((src, i) => {
+          const img = document.createElement("img");
+          img.src = src;
+          img.alt = `Vista ${i + 1}`;
+          if (i === 0) img.classList.add("active");
+          img.addEventListener("click", () => {
+            document.getElementById("modalMainImg").src = src;
+            thumbs
+              .querySelectorAll("img")
+              .forEach((t) => t.classList.remove("active"));
+            img.classList.add("active");
+          });
+          thumbs.appendChild(img);
+        });
+
+        document.getElementById("productModal").classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeProductModal() {
+        document.getElementById("productModal").classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      function openPaymentModal(product) {
+        document.getElementById("payTitle").textContent =
+          `Comprar: ${product.name}`;
+        document.getElementById("payPrice").textContent =
+          `${product.currency} ${product.price.toFixed(2).replace(".", ",")}`;
+        document.getElementById("paymentModal").classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closePaymentModal() {
+        document.getElementById("paymentModal").classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      // Event delegation for cards
+      grid.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-id]");
+        if (!btn) return;
+        const id = parseInt(btn.dataset.id);
+        const action = btn.dataset.action;
+        if (action === "details") openProductModal(id);
+        if (action === "buy") {
+          const p = products.find((x) => x.id === id);
+          openPaymentModal(p);
+        }
+      });
+
+      document.getElementById("modalBuyBtn").addEventListener("click", () => {
+        closeProductModal();
+        if (currentProduct) openPaymentModal(currentProduct);
+      });
+
+      document
+        .getElementById("closeProductModal")
+        .addEventListener("click", closeProductModal);
+      document
+        .getElementById("closePaymentModal")
+        .addEventListener("click", closePaymentModal);
+
+      // Close on overlay click
+      document.getElementById("productModal").addEventListener("click", (e) => {
+        if (e.target.id === "productModal") closeProductModal();
+      });
+      document.getElementById("paymentModal").addEventListener("click", (e) => {
+        if (e.target.id === "paymentModal") closePaymentModal();
+      });
+
+      // ========== PAYMENT DEMO ==========
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 3200);
+      }
+
+      document.getElementById("payCardBtn").addEventListener("click", () => {
+        const name = document.getElementById("payName").value.trim();
+        const email = document.getElementById("payEmail").value.trim();
+        if (!name || !email) {
+          showToast("Preencha nome e e-mail para continuar.");
+          return;
+        }
+        closePaymentModal();
+        showToast("Pagamento simulado com sucesso! (demo)");
+      });
+
+      document.getElementById("payCryptoBtn").addEventListener("click", () => {
+        closePaymentModal();
+        showToast("Redirecionando para gateway crypto... (demo)");
+      });
+
+      // ========== PANEL CURTIR (Firebase � ver <head>) ==========
+      // L�gica movida para o m�dulo Firebase no <head>
+
+      // ========== PANEL BUY / SELL ==========
+      document.querySelectorAll(".panel-buy").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const nome = btn.dataset.criatura;
+          document.getElementById("payTitle").textContent = "Comprar — " + nome;
+          document.getElementById("payPrice").textContent = "R$ 299,00";
+          document.getElementById("paymentModal").classList.add("active");
+        });
+      });
+      document.querySelectorAll(".panel-sell").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const nome = btn.dataset.criatura;
+          document.getElementById("payTitle").textContent = "Vender — " + nome;
+          document.getElementById("payPrice").textContent = "R$ 249,00";
+          document.getElementById("paymentModal").classList.add("active");
+        });
+      });
+
+      // ========== WALLET MOCK ==========
+      let walletConnected = false;
+      document
+        .getElementById("walletBtn")
+        .addEventListener("click", function () {
+          if (!walletConnected) {
+            this.textContent = "0xA3f...9B2c";
+            this.style.borderColor = "#c47bb8";
+            this.style.color = "#c47bb8";
+            walletConnected = true;
+            showToast("Wallet conectada (simulação)");
+          } else {
+            this.textContent = "Conectar Wallet";
+            this.style.borderColor = "";
+            this.style.color = "";
+            walletConnected = false;
+            showToast("Wallet desconectada");
+          }
+        });
+
+      // ESC to close modals
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeProductModal();
+          closePaymentModal();
+        }
+      });
+
+      // ========== WIN7 FOLDERS ==========
+      document.querySelectorAll(".win7-folder").forEach((folder) => {
+        // Drag
+        let dragging = false,
+          ox = 0,
+          oy = 0;
+        folder.addEventListener("mousedown", (e) => {
+          if (e.target.classList.contains("folder-name")) return;
+          dragging = true;
+          const rect = folder.getBoundingClientRect();
+          ox = e.clientX - rect.left;
+          oy = e.clientY - rect.top;
+          folder.style.transition = "none";
+          e.preventDefault();
+        });
+        document.addEventListener("mousemove", (e) => {
+          if (!dragging) return;
+          folder.style.left = e.clientX - ox + "px";
+          folder.style.top = e.clientY - oy + "px";
+          folder.style.right = "auto";
+          folder.style.bottom = "auto";
+        });
+        document.addEventListener("mouseup", () => {
+          dragging = false;
+          folder.style.transition = "";
+        });
+
+        // Double-click flash
+        folder.addEventListener("dblclick", (e) => {
+          if (e.target.classList.contains("folder-name")) return;
+          folder.classList.add("open");
+          setTimeout(() => folder.classList.remove("open"), 600);
+        });
+      });
+
+      // ========== HERO TEXT ALTERNATION ==========
+      const heroTexts = [
+        "I was born without a map.\nNo tutorial, no mentors, no fame.\nJust an insistent idea and a heart that wouldn't stop.",
+        "beings from another world who have awakened within an earthly body.\nWe own a unique, secret universe that inhabits the unknown within each of us.\nA whole cosmos made up of memories, dreams, fears, silences and lights that no one else can see.",
+      ];
+      let heroIndex = 0;
+      const heroEl = document.getElementById("heroText");
+
+      function setHeroText() {
+        if (!heroEl) return;
+        heroEl.classList.add("hidden");
+        setTimeout(() => {
+          heroEl.style.whiteSpace = "pre-line";
+          heroEl.textContent = heroTexts[heroIndex];
+          heroEl.classList.remove("hidden");
+          heroIndex = (heroIndex + 1) % heroTexts.length;
+        }, 1200);
+      }
+
+      setHeroText();
+      setInterval(setHeroText, 6000);
+
+      // ========== COPY CA ==========
+      document
+        .getElementById("caCopyBtn")
+        .addEventListener("click", function () {
+          const ca = document.getElementById("caAddress").textContent.trim();
+          navigator.clipboard
+            .writeText(ca)
+            .then(() => {
+              this.textContent = "Copiado!";
+              this.classList.add("copied");
+              showToast("Contract Address copiado!");
+              setTimeout(() => {
+                this.textContent = "Copiar";
+                this.classList.remove("copied");
+              }, 2200);
+            })
+            .catch(() => showToast("Erro ao copiar — tente manualmente."));
+        });
+
+      document
+        .getElementById("tipCopyBtn")
+        .addEventListener("click", function () {
+          const tip = document.getElementById("tipAddress").textContent.trim();
+          navigator.clipboard
+            .writeText(tip)
+            .then(() => {
+              this.textContent = "Copiado!";
+              this.classList.add("copied");
+              showToast("Endereço do Tip Jar copiado!");
+              setTimeout(() => {
+                this.textContent = "Copiar";
+                this.classList.remove("copied");
+              }, 2200);
+            })
+            .catch(() => showToast("Erro ao copiar — tente manualmente."));
+        });
+
+      // ========== STAKING MOCK ==========
+      document
+        .getElementById("stakeBtn")
+        .addEventListener("click", function () {
+          const raw = document.getElementById("stakeAmount").value;
+          const amount = parseFloat(raw);
+          if (!walletConnected) {
+            showToast("Conecte sua wallet primeiro.");
+            return;
+          }
+          if (!raw || isNaN(amount) || amount <= 0) {
+            showToast("Informe uma quantidade válida de $XENO.");
+            return;
+          }
+          showToast(
+            amount.toLocaleString("pt-BR") + " $XENO em stake! (simulação)",
+          );
+          document.getElementById("stakeAmount").value = "";
+        });
+
+      // ========== BURN COUNTER ANIMADO ==========
+      (function () {
+        const el = document.getElementById("burnCounter");
+        if (!el) return;
+        let n = 50000000;
+        function tick() {
+          n += Math.floor(Math.random() * 4);
+          el.textContent = n.toLocaleString("pt-BR");
+          setTimeout(tick, 1800 + Math.random() * 2400);
+        }
+        tick();
+      })();
+
+      // ========== MEME GALLERY CLICK ==========
+      document.querySelectorAll(".meme-card").forEach(function (card) {
+        card.addEventListener("click", function () {
+          if (this.classList.contains("add-card")) {
+            showToast("Galeria de memes em breve! Acompanhe o Telegram.");
+          }
+        });
+      });
+
+      // ========== TROCA DE MODELO 3D ==========
+      (function () {
+        var models = [
+          "animação 3d/xenocat1.glb",
+          "animação 3d/xenocat2.glb",
+          "animação 3d/XEBOCAT3.glb",
+        ];
+        var labels = ["Xeno Cat 1", "Xeno Cat 2", "Xeno Cat 3"];
+        var currentIdx = 0;
+
+        function getViewer() {
+          return document.getElementById("heroModelViewer");
+        }
+
+        function setModel(idx) {
+          currentIdx = (idx + models.length) % models.length;
+          var viewer = getViewer();
+          if (viewer) {
+            var resolved = new URL(models[currentIdx], document.baseURI).href;
+            viewer.setAttribute("src", resolved);
+          }
+          document.querySelectorAll(".model-dot").forEach(function (d, i) {
+            d.classList.toggle("active", i === currentIdx);
+          });
+          showToast(labels[currentIdx]);
+        }
+
+        document
+          .getElementById("modelNext")
+          .addEventListener("click", function () {
+            setModel(currentIdx + 1);
+          });
+        document
+          .getElementById("modelPrev")
+          .addEventListener("click", function () {
+            setModel(currentIdx - 1);
+          });
+        document.querySelectorAll(".model-dot").forEach(function (dot) {
+          dot.addEventListener("click", function () {
+            setModel(parseInt(this.dataset.idx, 10));
+          });
+        });
+      })();
+    </script>
+
+    <!-- ===== XENO CAT IA — CHAT WIDGET ===== -->
+    <!-- Botão flutuante -->
+    <button
+      id="xeno-chat-btn"
+      title="Falar com Xeno Cat IA"
+      aria-label="Abrir chat Xeno Cat IA"
+    >
+      <img
+        src="images/CAT 01.jpg"
+        alt="Xeno Cat"
+        id="chatBtnAvatar"
+        style="
+          width: 38px;
+          height: 38px;
+          object-fit: cover;
+          border-radius: 50%;
+          display: block;
+          pointer-events: none;
+        "
+      />
+      <span class="xeno-notif" aria-hidden="true"></span>
+    </button>
+
+    <!-- Janela do chat -->
+    <div
+      id="xeno-chat-window"
+      role="dialog"
+      aria-label="Chat Xeno Cat IA"
+      aria-modal="true"
+    >
+      <div class="xeno-chat-header">
+        <div class="xeno-chat-avatar" aria-hidden="true">
+          <img
+            src="images/CAT 01.jpg"
+            alt=""
+            id="chatHeaderAvatar"
+            style="
+              width: 32px;
+              height: 32px;
+              object-fit: cover;
+              border-radius: 50%;
+              display: block;
+            "
+          />
+        </div>
+        <div class="xeno-chat-header-info">
+          <strong>Xeno Cat IA</strong>
+          <span>👾 Powered by Grok — xAI</span>
+        </div>
+        <button
+          class="xeno-chat-close"
+          id="xeno-chat-close"
+          title="Fechar"
+          aria-label="Fechar chat"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div
+        class="xeno-chat-msgs"
+        id="xeno-chat-msgs"
+        role="log"
+        aria-live="polite"
+        aria-label="Mensagens do chat"
+      ></div>
+
+      <form class="xeno-chat-form" id="xeno-chat-form" autocomplete="off">
+        <textarea
+          class="xeno-chat-input"
+          id="xeno-chat-input"
+          placeholder="Pergunte sobre $XENO, NFT, Solana…"
+          rows="1"
+          maxlength="1000"
+          aria-label="Mensagem para Xeno Cat IA"
+        ></textarea>
+        <button
+          type="submit"
+          class="xeno-chat-send"
+          id="xeno-chat-send"
+          aria-label="Enviar mensagem"
+        >
+          ➤
+        </button>
+      </form>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+
+        // URL da API — relativa para funcionar tanto no Node (porta 3000) quanto em qualquer host
+        var API_URL = "/api/chat";
+
+        var btn = document.getElementById("xeno-chat-btn");
+        var win = document.getElementById("xeno-chat-window");
+        var closeBtn = document.getElementById("xeno-chat-close");
+        var msgs = document.getElementById("xeno-chat-msgs");
+        var form = document.getElementById("xeno-chat-form");
+        var input = document.getElementById("xeno-chat-input");
+        var sendBtn = document.getElementById("xeno-chat-send");
+
+        // Histórico de mensagens para contexto
+        var history = [];
+        var isStreaming = false;
+
+        // ---- Toggle abrir/fechar ----
+        btn.addEventListener("click", function () {
+          var isOpen = win.classList.toggle("open");
+          btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+          btn.classList.remove("has-notif");
+          if (isOpen) {
+            if (history.length === 0) addWelcome();
+            input.focus();
+          }
+        });
+        closeBtn.addEventListener("click", function () {
+          win.classList.remove("open");
+          btn.setAttribute("aria-expanded", "false");
+        });
+
+        // Fechar com Escape
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && win.classList.contains("open")) {
+            win.classList.remove("open");
+            btn.setAttribute("aria-expanded", "false");
+          }
+        });
+
+        // ---- Mensagem de boas-vindas ----
+        function addWelcome() {
+          appendMsg(
+            "assistant",
+            "👾 Olá, humano! Sou o Xeno Cat, mascote da colônia $XENO.\nPergunte sobre o site, as criaturas, o NFT Genesis ou como comprar $XENO na Solana. Estou aqui! 🐱",
+          );
+        }
+
+        // ---- Adiciona uma mensagem ao DOM ----
+        function appendMsg(role, text) {
+          var msg = document.createElement("div");
+          msg.className = "xeno-msg " + role;
+
+          var avatar = document.createElement("div");
+          avatar.className = "xeno-msg-avatar";
+          if (role === "assistant") {
+            var img = document.createElement("img");
+            img.src = "images/CAT 01.jpg";
+            img.alt = "";
+            img.style.cssText =
+              "width:22px;height:22px;object-fit:cover;border-radius:50%;display:block;";
+            if (window.removeImgBg) window.removeImgBg(img);
+            avatar.appendChild(img);
+          } else {
+            avatar.textContent = "👤";
+          }
+          avatar.setAttribute("aria-hidden", "true");
+
+          var bubble = document.createElement("div");
+          bubble.className = "xeno-msg-bubble";
+          bubble.textContent = text;
+
+          msg.appendChild(avatar);
+          msg.appendChild(bubble);
+          msgs.appendChild(msg);
+          scrollBottom();
+          return bubble; // retorna a bolha para streaming
+        }
+
+        // ---- Adiciona indicador de digitação ----
+        function addTyping() {
+          var msg = document.createElement("div");
+          msg.className = "xeno-msg assistant";
+          msg.id = "xeno-typing-indicator";
+
+          var avatar = document.createElement("div");
+          avatar.className = "xeno-msg-avatar";
+          var typImg = document.createElement("img");
+          typImg.src = "images/CAT 01.jpg";
+          typImg.alt = "";
+          typImg.style.cssText =
+            "width:22px;height:22px;object-fit:cover;border-radius:50%;display:block;";
+          if (window.removeImgBg) window.removeImgBg(typImg);
+          avatar.appendChild(typImg);
+          avatar.setAttribute("aria-hidden", "true");
+
+          var typing = document.createElement("div");
+          typing.className = "xeno-msg-bubble xeno-typing";
+          typing.innerHTML = "<span></span><span></span><span></span>";
+
+          msg.appendChild(avatar);
+          msg.appendChild(typing);
+          msgs.appendChild(msg);
+          scrollBottom();
+        }
+
+        function removeTyping() {
+          var el = document.getElementById("xeno-typing-indicator");
+          if (el) el.remove();
+        }
+
+        function scrollBottom() {
+          msgs.scrollTop = msgs.scrollHeight;
+        }
+
+        // ---- Auto-resize do textarea ----
+        input.addEventListener("input", function () {
+          this.style.height = "auto";
+          this.style.height = Math.min(this.scrollHeight, 120) + "px";
+        });
+
+        // Enter envia, Shift+Enter quebra linha
+        input.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            if (!isStreaming) form.requestSubmit();
+          }
+        });
+
+        // ---- Envia mensagem e faz streaming ----
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          var text = input.value.trim();
+          if (!text || isStreaming) return;
+
+          isStreaming = true;
+          sendBtn.disabled = true;
+          input.value = "";
+          input.style.height = "auto";
+
+          // Adiciona ao histórico e ao DOM
+          history.push({ role: "user", content: text });
+          appendMsg("user", text);
+          addTyping();
+
+          var aiBubble = null;
+          var aiText = "";
+
+          try {
+            var resp = await fetch(API_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ messages: history }),
+            });
+
+            if (!resp.ok) {
+              var errData = {};
+              try {
+                errData = await resp.json();
+              } catch (_) {}
+              throw new Error(errData.error || "Erro " + resp.status);
+            }
+
+            removeTyping();
+            aiBubble = appendMsg("assistant", "").parentElement
+              ? msgs.lastElementChild.querySelector(".xeno-msg-bubble")
+              : null;
+            // Re-cria a bolha de streaming corretamente
+            removeLastAssistantBubble();
+            aiBubble = appendMsg("assistant", "");
+
+            // Lê o stream de dados do AI SDK
+            var reader = resp.body.getReader();
+            var decoder = new TextDecoder();
+            var buffer = "";
+
+            while (true) {
+              var chunk = await reader.read();
+              if (chunk.done) break;
+
+              buffer += decoder.decode(chunk.value, { stream: true });
+              var lines = buffer.split("\n");
+              // Mantém a última linha incompleta no buffer
+              buffer = lines.pop();
+
+              for (var i = 0; i < lines.length; i++) {
+                var line = lines[i];
+                // Protocolo do AI SDK: linhas do tipo "0:\"texto\""
+                if (line.startsWith("0:")) {
+                  try {
+                    var delta = JSON.parse(line.slice(2));
+                    aiText += delta;
+                    aiBubble.textContent = aiText;
+                    scrollBottom();
+                  } catch (_) {}
+                }
+                // "e:" e "d:" indicam fim — ignora silenciosamente
+              }
+            }
+
+            if (aiText) {
+              history.push({ role: "assistant", content: aiText });
+            }
+          } catch (err) {
+            removeTyping();
+            if (aiBubble) {
+              aiBubble.textContent =
+                "⚠️ " + (err.message || "Erro desconhecido.");
+            } else {
+              appendMsg(
+                "assistant",
+                "⚠️ " +
+                  (err.message ||
+                    "Não consegui me conectar ao servidor. Certifique-se de que está rodando com `npm start`."),
+              );
+            }
+          } finally {
+            isStreaming = false;
+            sendBtn.disabled = false;
+            input.focus();
+          }
+        });
+
+        // Utilitário: remove a última bolha de assistant (para substituir pelo streaming real)
+        function removeLastAssistantBubble() {
+          var last = msgs.lastElementChild;
+          if (last && last.classList.contains("assistant")) last.remove();
+        }
+
+        // Notificação quando o chat estiver fechado
+        window.__xenoChatNotify = function () {
+          if (!win.classList.contains("open")) btn.classList.add("has-notif");
+        };
+      })();
+    </script>
+    <!-- ===== FIM XENO CAT IA ===== -->
+  </body>
+</html>

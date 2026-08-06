@@ -1,0 +1,53 @@
+{
+  "name": "Xenomorph Genesis #001",
+  "symbol": "XANO",
+  "description": "Exclusive 1/1 Genesis NFT of the Xenomorph Xano Alien collection. A biomechanical entity emerging from the digital void, fused with blockchain energy. The first and only of its kind. Holder gains early access to future drops, merch discounts and private community channels.",
+  "image": "nft-exclusive-1of1.jpg",
+  "animation_url": "",
+  "external_url": "https://xenocat.xyz",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Genesis 1/1"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Legendary"
+    },
+    {
+      "trait_type": "Element",
+      "value": "Acid Neon"
+    },
+    {
+      "trait_type": "Origin",
+      "value": "Digital Void Portal"
+    },
+    {
+      "trait_type": "Blockchain Energy",
+      "value": "Active"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Xenomorph Xano Alien"
+    },
+    {
+      "trait_type": "Edition",
+      "value": "1 of 1"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "nft-exclusive-1of1.jpg",
+        "type": "image/jpeg"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "YOUR_WALLET_ADDRESS_HERE",
+        "share": 100
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+.vercel
+.env*
+!.env.example
+node_modules/
+
+# Arquivo acima do limite de 100MB do GitHub
+animação 3d/Meshy_AI_Brain_Cat_0805014410_texture (1).glb
+
+# Repositório git embutido
+animação 3d/XANO CAT/
+
+# Arquivos não relacionados ao site
+images/TUF-GAMING-B550-PRO-ASUS-3636/
+images/TUF-GAMING-B550-PRO-ASUS-3636.zip
+images/cpu-z_2.20.2-en.exe
+images/(1) Grok _ X.html
+images/(1) Grok _ X_files/

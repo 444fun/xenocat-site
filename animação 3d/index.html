@@ -1,0 +1,2204 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xenomorph | Xeno Cat</title>
+    <meta
+      name="description"
+      content="Xenomorph - Xeno Cat. Coleção exclusiva de produtos biomechanical com estética Web3 e Alien."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
+    ></script>
+    <style>
+      :root {
+        --bg: #03060f;
+        --bg-card: rgba(4, 10, 28, 0.75);
+        --accent: #00b4ff; /* Azul elétrico */
+        --accent-dim: #0077b6;
+        --accent-glow: rgba(0, 180, 255, 0.45);
+        --accent-red: #ff2a2a; /* Vermelho */
+        --accent-red-glow: rgba(255, 42, 42, 0.4);
+        --text: #e8e8e8;
+        --text-muted: #9a9a9a;
+        --border: #1f1f1f;
+        --danger: #ff2a2a;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      @keyframes win7aurora {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      body {
+        font-family: "Merriweather", Georgia, serif;
+        background:
+          radial-gradient(
+            ellipse 120% 80% at 50% -10%,
+            #0a2a6e 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 80% 60% at 80% 20%,
+            #003366 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 90% 70% at 20% 30%,
+            #001a4d 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 140% 100% at 50% 100%,
+            #010818 0%,
+            #03060f 100%
+          );
+        background-color: #03060f;
+        color: var(--text);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* Windows 7 aurora glow layers */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 60% 40% at 30% 25%,
+            rgba(0, 100, 220, 0.18) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 50% 35% at 70% 15%,
+            rgba(0, 180, 255, 0.12) 0%,
+            transparent 65%
+          ),
+          radial-gradient(
+            ellipse 80% 30% at 50% 5%,
+            rgba(10, 60, 180, 0.22) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 40% 25% at 15% 60%,
+            rgba(0, 60, 140, 0.1) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 35% 20% at 85% 70%,
+            rgba(0, 120, 200, 0.08) 0%,
+            transparent 60%
+          );
+        background-size: 200% 200%;
+        animation: win7aurora 18s ease infinite;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      /* Subtle light streak */
+      body::after {
+        content: "";
+        position: fixed;
+        top: -20%;
+        left: -10%;
+        width: 120%;
+        height: 55%;
+        background: linear-gradient(
+          108deg,
+          transparent 30%,
+          rgba(0, 140, 255, 0.06) 48%,
+          rgba(0, 200, 255, 0.1) 52%,
+          transparent 70%
+        );
+        transform: rotate(-8deg);
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      a:hover {
+        color: #66d4ff;
+      }
+
+      /* Header */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(5, 5, 5, 0.92);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 0.85rem 1.5rem;
+      }
+
+      .header-inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .logo {
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .logo img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        filter: drop-shadow(0 0 8px var(--accent-glow));
+      }
+
+      .logo-text h1 {
+        font-size: 1.35rem;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        background: linear-gradient(90deg, #00b4ff, #ff2a2a);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        line-height: 1.1;
+        filter: drop-shadow(0 0 8px rgba(0, 180, 255, 0.4));
+      }
+
+      .logo-text span {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        font-weight: 300;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      nav {
+        display: flex;
+        gap: 1.75rem;
+        align-items: center;
+      }
+
+      nav a {
+        color: var(--text);
+        font-size: 0.9rem;
+        font-weight: 400;
+      }
+      nav a:hover {
+        color: var(--accent);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        padding: 0.65rem 1.25rem;
+        border: 1px solid var(--accent);
+        background: transparent;
+        color: var(--accent);
+        font-family: inherit;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.25s ease;
+        letter-spacing: 0.03em;
+      }
+
+      .btn:hover {
+        background: var(--accent);
+        color: #000;
+        box-shadow: 0 0 20px var(--accent-glow);
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: #000;
+      }
+      .btn-primary:hover {
+        background: #66d4ff;
+        box-shadow: 0 0 24px var(--accent-glow);
+      }
+
+      .btn-wallet {
+        border-color: var(--accent);
+        font-size: 0.85rem;
+      }
+
+      /* Hero */
+      .hero {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 4.5rem 1.5rem 3.5rem;
+        text-align: center;
+        position: relative;
+      }
+
+      .hero h2 {
+        font-size: clamp(2.2rem, 6vw, 3.8rem);
+        font-weight: 900;
+        background: linear-gradient(90deg, #00b4ff, #ff2a2a);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        text-shadow: none;
+        filter: drop-shadow(0 0 18px rgba(0, 180, 255, 0.5));
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.06em;
+      }
+
+      .hero .subtitle {
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        font-weight: 300;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+      }
+
+      .hero p {
+        max-width: 620px;
+        margin: 0 auto 2rem;
+        color: var(--text);
+        font-size: 1.05rem;
+        font-weight: 300;
+      }
+
+      /* Products */
+      .section {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+        color: var(--text);
+      }
+
+      .section-title span {
+        color: var(--accent-red);
+      }
+
+      .section-desc {
+        text-align: center;
+        color: var(--text-muted);
+        margin-bottom: 2.5rem;
+        font-weight: 300;
+      }
+
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1.75rem;
+      }
+
+      .product-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .product-card:hover {
+        border-color: var(--accent-dim);
+        box-shadow: 0 0 24px rgba(57, 255, 20, 0.15);
+        transform: translateY(-4px);
+      }
+
+      .product-img-wrap {
+        position: relative;
+        aspect-ratio: 3/4;
+        overflow: hidden;
+        background: #000;
+      }
+
+      .product-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+
+      .product-card:hover .product-img-wrap img {
+        transform: scale(1.05);
+      }
+
+      .product-body {
+        padding: 1.15rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .product-body h3 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 0.35rem;
+        color: var(--text);
+      }
+
+      .product-price {
+        color: var(--accent-red);
+        font-weight: 700;
+        font-size: 1.15rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .product-desc {
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        font-weight: 300;
+        margin-bottom: 1rem;
+        flex: 1;
+      }
+
+      .product-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .product-actions .btn {
+        flex: 1;
+        padding: 0.55rem 0.6rem;
+        font-size: 0.82rem;
+      }
+
+      /* Modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.85);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+        z-index: 200;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      .modal {
+        background: var(--bg-card);
+        border: 1px solid var(--accent-dim);
+        border-radius: 12px;
+        max-width: 920px;
+        width: 100%;
+        max-height: 92vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 0 40px var(--accent-glow);
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.9rem;
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.6rem;
+        cursor: pointer;
+        line-height: 1;
+        z-index: 10;
+      }
+      .modal-close:hover {
+        color: var(--accent);
+      }
+
+      .modal-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+      }
+
+      @media (max-width: 768px) {
+        .modal-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .modal-gallery {
+        background: #000;
+        padding: 1.25rem;
+      }
+
+      .modal-main-img {
+        width: 100%;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        border-radius: 6px;
+        margin-bottom: 0.75rem;
+      }
+
+      .modal-thumbs {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+      }
+
+      .modal-thumbs img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        border-radius: 4px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: border-color 0.2s;
+      }
+
+      .modal-thumbs img.active,
+      .modal-thumbs img:hover {
+        border-color: var(--accent);
+      }
+
+      .modal-info {
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .modal-info h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+      }
+
+      .modal-price {
+        font-size: 1.5rem;
+        color: var(--accent-red);
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .modal-info p {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        font-weight: 300;
+        margin-bottom: 1.5rem;
+        flex: 1;
+      }
+
+      .modal-info .btn {
+        width: 100%;
+        padding: 0.85rem;
+        font-size: 1rem;
+      }
+
+      /* Payment Modal */
+      .payment-form {
+        padding: 2rem;
+      }
+
+      .payment-form h2 {
+        margin-bottom: 0.3rem;
+        font-size: 1.4rem;
+      }
+
+      .payment-form .price-tag {
+        color: var(--accent-red);
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 0.85rem;
+        margin-bottom: 0.3rem;
+        color: var(--text-muted);
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 0.7rem 0.9rem;
+        background: #111;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 0.95rem;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      .payment-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        margin-top: 1.25rem;
+      }
+
+      .btn-crypto {
+        border-color: #f7931a;
+        color: #f7931a;
+      }
+      .btn-crypto:hover {
+        background: #f7931a;
+        color: #000;
+      }
+
+      /* Community / Footer */
+      .community {
+        background: linear-gradient(
+          180deg,
+          transparent,
+          rgba(0, 180, 255, 0.05)
+        );
+        border-top: 1px solid var(--border);
+        padding: 3.5rem 1.5rem;
+        text-align: center;
+      }
+
+      .community h2 {
+        font-size: 1.6rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .community p {
+        color: var(--text-muted);
+        max-width: 500px;
+        margin: 0 auto 1.75rem;
+        font-weight: 300;
+      }
+
+      .community-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem 1.5rem;
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      footer .email {
+        display: block;
+        margin: 0.5rem 0 1rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 720px) {
+        nav {
+          display: none;
+        }
+        .logo-text h1 {
+          font-size: 1.1rem;
+        }
+        .hero {
+          padding-top: 3rem;
+        }
+      }
+
+      /* Win7 Desktop Folders */
+      .win7-desktop {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 5;
+      }
+
+      .win7-folder {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        width: 76px;
+        cursor: pointer;
+        pointer-events: all;
+        -webkit-user-select: none;
+        user-select: none;
+        transition: transform 0.15s ease;
+      }
+
+      .win7-folder:hover {
+        transform: scale(1.08);
+      }
+
+      .win7-folder:active {
+        transform: scale(0.96);
+      }
+
+      .folder-icon {
+        position: relative;
+        width: 56px;
+        height: 44px;
+        filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6))
+          drop-shadow(0 0 8px rgba(255, 180, 0, 0.2));
+        transition: filter 0.2s;
+      }
+
+      .win7-folder:hover .folder-icon {
+        filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.7))
+          drop-shadow(0 0 14px rgba(255, 200, 50, 0.45));
+      }
+
+      .folder-shine {
+        position: absolute;
+        top: 10px;
+        left: 6px;
+        width: 44px;
+        height: 16px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.28) 0%,
+          transparent 100%
+        );
+        border-radius: 4px 4px 0 0;
+        pointer-events: none;
+      }
+
+      .folder-name {
+        font-size: 0.75rem;
+        color: #fff;
+        text-align: center;
+        text-shadow:
+          0 1px 3px rgba(0, 0, 0, 0.9),
+          0 0 8px rgba(0, 0, 0, 0.8);
+        outline: none;
+        border-radius: 2px;
+        padding: 1px 4px;
+        max-width: 76px;
+        word-break: break-word;
+        line-height: 1.3;
+        font-family: "Segoe UI", Arial, sans-serif;
+        font-weight: 400;
+      }
+
+      .folder-name:focus {
+        background: rgba(0, 80, 200, 0.7);
+        box-shadow: 0 0 0 1px rgba(100, 160, 255, 0.8);
+      }
+
+      /* double-click open effect */
+      .win7-folder.open .folder-icon {
+        filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.8))
+          drop-shadow(0 0 20px rgba(255, 220, 80, 0.7)) brightness(1.2);
+      }
+
+      /* 3D Gallery */
+      .gallery-3d {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 4rem 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .gallery-title {
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 2.5rem;
+        color: var(--text);
+      }
+
+      .gallery-title span {
+        color: var(--accent);
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+
+      @media (max-width: 1024px) {
+        .gallery-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 720px) {
+        .gallery-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .crystal-panel {
+        position: relative;
+        height: 420px;
+        border-radius: 16px;
+        overflow: hidden;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.85) 0%,
+          rgba(10, 10, 20, 0.95) 100%
+        );
+        border: 1px solid rgba(0, 180, 255, 0.18);
+        box-shadow:
+          0 0 0 1px rgba(0, 180, 255, 0.08),
+          0 8px 40px rgba(0, 0, 0, 0.7),
+          inset 0 1px 0 rgba(255, 255, 255, 0.04),
+          inset 0 0 60px rgba(0, 180, 255, 0.03);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        transition:
+          box-shadow 0.35s ease,
+          border-color 0.35s ease;
+      }
+
+      .crystal-panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 16px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.04) 0%,
+          transparent 50%,
+          rgba(0, 180, 255, 0.03) 100%
+        );
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .crystal-panel:hover {
+        border-color: rgba(0, 180, 255, 0.45);
+        box-shadow:
+          0 0 0 1px rgba(0, 180, 255, 0.2),
+          0 12px 60px rgba(0, 0, 0, 0.8),
+          0 0 40px rgba(0, 180, 255, 0.12),
+          inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      }
+
+      .panel-label {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 0.75rem 1rem 3.5rem;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.9) 60%,
+          transparent
+        );
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        text-align: center;
+        z-index: 2;
+      }
+
+      .panel-actions {
+        position: absolute;
+        bottom: 0.6rem;
+        left: 0;
+        right: 0;
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        z-index: 3;
+        padding: 0 0.75rem;
+      }
+
+      .panel-actions .btn {
+        flex: 1;
+        padding: 0.4rem 0.5rem;
+        font-size: 0.78rem;
+        border-radius: 4px;
+      }
+
+      .btn-sell {
+        border-color: var(--accent-red);
+        color: var(--accent-red);
+      }
+      .btn-sell:hover {
+        background: var(--accent-red);
+        color: #fff;
+        box-shadow: 0 0 16px var(--accent-red-glow);
+      }
+
+      .crystal-panel-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .panel-placeholder-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+        color: var(--text-muted);
+        opacity: 0.6;
+      }
+
+      .panel-placeholder-content .placeholder-icon {
+        font-size: 2.5rem;
+        color: var(--accent);
+      }
+
+      .panel-placeholder-content .placeholder-text {
+        font-size: 0.85rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      /* Hero text fade */
+      #heroText {
+        transition: opacity 1.2s ease;
+        min-height: 4rem;
+      }
+      #heroText.hidden {
+        opacity: 0;
+      }
+
+      /* Toast */
+      .toast {
+        position: fixed;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--bg-card);
+        border: 1px solid var(--accent);
+        color: var(--text);
+        padding: 0.9rem 1.5rem;
+        border-radius: 6px;
+        z-index: 300;
+        opacity: 0;
+        transition: all 0.35s ease;
+        font-size: 0.95rem;
+        box-shadow: 0 0 20px var(--accent-glow);
+      }
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="header-inner">
+        <a href="#" class="logo">
+          <div class="logo-text">
+            <h1>XENOMORPH</h1>
+            <span>Xeno Cat</span>
+          </div>
+        </a>
+        <nav>
+          <a href="#produtos">Produtos</a>
+          <a href="#comunidade">Comunidade</a>
+          <a href="#suporte">Suporte</a>
+        </nav>
+        <button class="btn btn-wallet" id="walletBtn">Conectar Wallet</button>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div
+        style="
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          align-items: flex-end;
+        "
+      >
+        <model-viewer
+          src="Meshy_AI_model_Animation_Walking_withSkin.glb"
+          alt="Modelo 3D Animado"
+          camera-controls
+          auto-rotate
+          autoplay
+          shadow-intensity="1"
+          style="width: 33%; height: 500px"
+        >
+        </model-viewer>
+        <model-viewer
+          src="sa.glb"
+          alt="Modelo 3D Centro"
+          camera-controls
+          auto-rotate
+          autoplay
+          shadow-intensity="1"
+          style="width: 33%; height: 500px"
+        >
+        </model-viewer>
+        <model-viewer
+          src="Meshy_AI_Wry_Frown_Portrait_0720224332_generate.glb"
+          alt="Modelo 3D Retrato"
+          camera-controls
+          auto-rotate
+          autoplay
+          shadow-intensity="1"
+          style="width: 33%; height: 500px"
+        >
+        </model-viewer>
+      </div>
+      <div class="subtitle">Xeno Cat</div>
+      <p id="heroText"></p>
+      <a href="#produtos" class="btn btn-primary">Explorar Coleção</a>
+    </section>
+
+    <!-- 3D Gallery -->
+    <section class="gallery-3d" id="galeria">
+      <div class="gallery-grid">
+        <div class="crystal-panel">
+          <model-viewer
+            src="cave.glb"
+            alt="Animação 1"
+            camera-controls
+            auto-rotate
+            autoplay
+            shadow-intensity="1"
+            style="width: 100%; height: 420px; display: block"
+          >
+          </model-viewer>
+          <div class="panel-label">Criatura I</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-primary panel-buy"
+              data-criatura="Criatura I"
+            >
+              Comprar
+            </button>
+            <button class="btn btn-sell panel-sell" data-criatura="Criatura I">
+              Vender
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel">
+          <model-viewer
+            src="TRTR.glb"
+            alt="Animação 2"
+            camera-controls
+            auto-rotate
+            autoplay
+            shadow-intensity="1"
+            style="width: 100%; height: 420px; display: block"
+          >
+          </model-viewer>
+          <div class="panel-label">Criatura II</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-primary panel-buy"
+              data-criatura="Criatura II"
+            >
+              Comprar
+            </button>
+            <button class="btn btn-sell panel-sell" data-criatura="Criatura II">
+              Vender
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel">
+          <model-viewer
+            src="edelon.glb"
+            alt="Animação 3"
+            camera-controls
+            auto-rotate
+            autoplay
+            shadow-intensity="1"
+            style="width: 100%; height: 420px; display: block"
+          >
+          </model-viewer>
+          <div class="panel-label">Criatura III</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-primary panel-buy"
+              data-criatura="Criatura III"
+            >
+              Comprar
+            </button>
+            <button
+              class="btn btn-sell panel-sell"
+              data-criatura="Criatura III"
+            >
+              Vender
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel">
+          <model-viewer
+            src="satof.glb"
+            alt="Animação 4"
+            camera-controls
+            auto-rotate
+            autoplay
+            shadow-intensity="1"
+            style="width: 100%; height: 420px; display: block"
+          >
+          </model-viewer>
+          <div class="panel-label">Criatura IV</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-primary panel-buy"
+              data-criatura="Criatura IV"
+            >
+              Comprar
+            </button>
+            <button class="btn btn-sell panel-sell" data-criatura="Criatura IV">
+              Vender
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel">
+          <model-viewer
+            src="STA1.glb"
+            alt="Animação 5"
+            camera-controls
+            auto-rotate
+            autoplay
+            shadow-intensity="1"
+            style="width: 100%; height: 420px; display: block"
+          >
+          </model-viewer>
+          <div class="panel-label">Criatura V</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-primary panel-buy"
+              data-criatura="Criatura V"
+            >
+              Comprar
+            </button>
+            <button class="btn btn-sell panel-sell" data-criatura="Criatura V">
+              Vender
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel">
+          <model-viewer
+            src="alienperf.glb"
+            alt="Animação 6"
+            camera-controls
+            auto-rotate
+            autoplay
+            shadow-intensity="1"
+            style="width: 100%; height: 420px; display: block"
+          >
+          </model-viewer>
+          <div class="panel-label">Criatura VI</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-primary panel-buy"
+              data-criatura="Criatura VI"
+            >
+              Comprar
+            </button>
+            <button class="btn btn-sell panel-sell" data-criatura="Criatura VI">
+              Vender
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel">
+          <model-viewer
+            src="NOITEALIEN.glb"
+            alt="Animação 7"
+            camera-controls
+            auto-rotate
+            autoplay
+            shadow-intensity="1"
+            style="width: 100%; height: 420px; display: block"
+          >
+          </model-viewer>
+          <div class="panel-label">Criatura VII</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-primary panel-buy"
+              data-criatura="Criatura VII"
+            >
+              Comprar
+            </button>
+            <button
+              class="btn btn-sell panel-sell"
+              data-criatura="Criatura VII"
+            >
+              Vender
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel">
+          <model-viewer
+            src="URSONY.glb"
+            alt="Animação 8"
+            camera-controls
+            auto-rotate
+            autoplay
+            shadow-intensity="1"
+            style="width: 100%; height: 420px; display: block"
+          >
+          </model-viewer>
+          <div class="panel-label">Criatura VIII</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-primary panel-buy"
+              data-criatura="Criatura VIII"
+            >
+              Comprar
+            </button>
+            <button
+              class="btn btn-sell panel-sell"
+              data-criatura="Criatura VIII"
+            >
+              Vender
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel crystal-panel-placeholder">
+          <div class="panel-placeholder-content">
+            <span class="placeholder-icon">&#10687;</span>
+            <span class="placeholder-text">Em breve</span>
+          </div>
+          <div class="panel-label">Criatura IX</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-primary panel-buy"
+              data-criatura="Criatura IX"
+            >
+              Comprar
+            </button>
+            <button class="btn btn-sell panel-sell" data-criatura="Criatura IX">
+              Vender
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel crystal-panel-placeholder">
+          <div class="panel-placeholder-content">
+            <span class="placeholder-icon">&#10687;</span>
+            <span class="placeholder-text">Em breve</span>
+          </div>
+          <div class="panel-label">Criatura X</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-primary panel-buy"
+              data-criatura="Criatura X"
+            >
+              Comprar
+            </button>
+            <button class="btn btn-sell panel-sell" data-criatura="Criatura X">
+              Vender
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel crystal-panel-placeholder">
+          <div class="panel-placeholder-content">
+            <span class="placeholder-icon">&#10687;</span>
+            <span class="placeholder-text">Em breve</span>
+          </div>
+          <div class="panel-label">Criatura XI</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-primary panel-buy"
+              data-criatura="Criatura XI"
+            >
+              Comprar
+            </button>
+            <button class="btn btn-sell panel-sell" data-criatura="Criatura XI">
+              Vender
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel crystal-panel-placeholder">
+          <div class="panel-placeholder-content">
+            <span class="placeholder-icon">&#10687;</span>
+            <span class="placeholder-text">Em breve</span>
+          </div>
+          <div class="panel-label">Criatura XII</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-primary panel-buy"
+              data-criatura="Criatura XII"
+            >
+              Comprar
+            </button>
+            <button
+              class="btn btn-sell panel-sell"
+              data-criatura="Criatura XII"
+            >
+              Vender
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel crystal-panel-placeholder">
+          <div class="panel-placeholder-content">
+            <span class="placeholder-icon">&#10687;</span>
+            <span class="placeholder-text">Em breve</span>
+          </div>
+          <div class="panel-label">Criatura XIII</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-primary panel-buy"
+              data-criatura="Criatura XIII"
+            >
+              Comprar
+            </button>
+            <button
+              class="btn btn-sell panel-sell"
+              data-criatura="Criatura XIII"
+            >
+              Vender
+            </button>
+          </div>
+        </div>
+        <div class="crystal-panel crystal-panel-placeholder">
+          <div class="panel-placeholder-content">
+            <span class="placeholder-icon">&#10687;</span>
+            <span class="placeholder-text">Em breve</span>
+          </div>
+          <div class="panel-label">Criatura XIV</div>
+          <div class="panel-actions">
+            <button
+              class="btn btn-primary panel-buy"
+              data-criatura="Criatura XIV"
+            >
+              Comprar
+            </button>
+            <button
+              class="btn btn-sell panel-sell"
+              data-criatura="Criatura XIV"
+            >
+              Vender
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Win7 Desktop Folders -->
+    <div class="win7-desktop" id="win7Desktop">
+      <div class="win7-folder" id="folder1" style="top: 12%; left: 3%">
+        <div class="folder-icon">
+          <svg
+            viewBox="0 0 56 44"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 8C0 5.79 1.79 4 4 4H20L25 10H52C54.21 10 56 11.79 56 14V40C56 42.21 54.21 44 52 44H4C1.79 44 0 42.21 0 40V8Z"
+              fill="url(#fg1)"
+            />
+            <path
+              d="M0 6C0 3.79 1.79 2 4 2H18L23 8H4C1.79 8 0 9.79 0 12V6Z"
+              fill="url(#ft1)"
+            />
+            <defs>
+              <linearGradient
+                id="fg1"
+                x1="0"
+                y1="10"
+                x2="56"
+                y2="44"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffd04e" />
+                <stop offset="1" stop-color="#d4860a" />
+              </linearGradient>
+              <linearGradient
+                id="ft1"
+                x1="0"
+                y1="2"
+                x2="23"
+                y2="8"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffe480" />
+                <stop offset="1" stop-color="#f0a020" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="folder-shine"></div>
+        </div>
+        <span class="folder-name" contenteditable="true">Nova Pasta</span>
+      </div>
+
+      <div class="win7-folder" id="folder2" style="top: 35%; right: 3%">
+        <div class="folder-icon">
+          <svg
+            viewBox="0 0 56 44"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 8C0 5.79 1.79 4 4 4H20L25 10H52C54.21 10 56 11.79 56 14V40C56 42.21 54.21 44 52 44H4C1.79 44 0 42.21 0 40V8Z"
+              fill="url(#fg2)"
+            />
+            <path
+              d="M0 6C0 3.79 1.79 2 4 2H18L23 8H4C1.79 8 0 9.79 0 12V6Z"
+              fill="url(#ft2)"
+            />
+            <defs>
+              <linearGradient
+                id="fg2"
+                x1="0"
+                y1="10"
+                x2="56"
+                y2="44"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffd04e" />
+                <stop offset="1" stop-color="#d4860a" />
+              </linearGradient>
+              <linearGradient
+                id="ft2"
+                x1="0"
+                y1="2"
+                x2="23"
+                y2="8"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffe480" />
+                <stop offset="1" stop-color="#f0a020" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="folder-shine"></div>
+        </div>
+        <span class="folder-name" contenteditable="true">Nova Pasta</span>
+      </div>
+
+      <div class="win7-folder" id="folder3" style="top: 62%; left: 4%">
+        <div class="folder-icon">
+          <svg
+            viewBox="0 0 56 44"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 8C0 5.79 1.79 4 4 4H20L25 10H52C54.21 10 56 11.79 56 14V40C56 42.21 54.21 44 52 44H4C1.79 44 0 42.21 0 40V8Z"
+              fill="url(#fg3)"
+            />
+            <path
+              d="M0 6C0 3.79 1.79 2 4 2H18L23 8H4C1.79 8 0 9.79 0 12V6Z"
+              fill="url(#ft3)"
+            />
+            <defs>
+              <linearGradient
+                id="fg3"
+                x1="0"
+                y1="10"
+                x2="56"
+                y2="44"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffd04e" />
+                <stop offset="1" stop-color="#d4860a" />
+              </linearGradient>
+              <linearGradient
+                id="ft3"
+                x1="0"
+                y1="2"
+                x2="23"
+                y2="8"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffe480" />
+                <stop offset="1" stop-color="#f0a020" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="folder-shine"></div>
+        </div>
+        <span class="folder-name" contenteditable="true">Nova Pasta</span>
+      </div>
+
+      <div class="win7-folder" id="folder4" style="top: 80%; right: 4%">
+        <div class="folder-icon">
+          <svg
+            viewBox="0 0 56 44"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 8C0 5.79 1.79 4 4 4H20L25 10H52C54.21 10 56 11.79 56 14V40C56 42.21 54.21 44 52 44H4C1.79 44 0 42.21 0 40V8Z"
+              fill="url(#fg4)"
+            />
+            <path
+              d="M0 6C0 3.79 1.79 2 4 2H18L23 8H4C1.79 8 0 9.79 0 12V6Z"
+              fill="url(#ft4)"
+            />
+            <defs>
+              <linearGradient
+                id="fg4"
+                x1="0"
+                y1="10"
+                x2="56"
+                y2="44"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffd04e" />
+                <stop offset="1" stop-color="#d4860a" />
+              </linearGradient>
+              <linearGradient
+                id="ft4"
+                x1="0"
+                y1="2"
+                x2="23"
+                y2="8"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#ffe480" />
+                <stop offset="1" stop-color="#f0a020" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="folder-shine"></div>
+        </div>
+        <span class="folder-name" contenteditable="true">Nova Pasta</span>
+      </div>
+    </div>
+
+    <!-- Community -->
+    <section class="community" id="comunidade">
+      <h2>Junte-se à Colônia</h2>
+      <p>
+        Entre no Telegram oficial para drops exclusivos, atualizações de estoque
+        e discussões sobre o universo Xeno Cat.
+      </p>
+      <div class="community-links">
+        <a
+          href="https://t.me/xanoalien"
+          target="_blank"
+          rel="noopener"
+          class="btn"
+          >Telegram</a
+        >
+        <a
+          href="https://x.com/xanoalien"
+          target="_blank"
+          rel="noopener"
+          class="btn"
+          >X / Twitter</a
+        >
+        <a
+          href="https://discord.gg/xanoalien"
+          target="_blank"
+          rel="noopener"
+          class="btn"
+          >Discord</a
+        >
+      </div>
+    </section>
+
+    <!-- Footer / Support -->
+    <footer id="suporte">
+      <strong>Suporte</strong>
+      <a href="mailto:suporte@xenocat.xyz" class="email">suporte@xenocat.xyz</a>
+      <p>© 2026 Xenomorph — Xeno Cat. Todos os direitos reservados.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem">
+        Página demo. Integração real de pagamento (Stripe / Crypto) deve ser
+        configurada no backend.
+      </p>
+    </footer>
+
+    <!-- Product Modal -->
+    <div class="modal-overlay" id="productModal">
+      <div class="modal">
+        <button class="modal-close" id="closeProductModal">&times;</button>
+        <div class="modal-content">
+          <div class="modal-gallery">
+            <img src="data:," alt="" class="modal-main-img" id="modalMainImg" />
+            <div class="modal-thumbs" id="modalThumbs"></div>
+          </div>
+          <div class="modal-info">
+            <h2 id="modalTitle"></h2>
+            <div class="modal-price" id="modalPrice"></div>
+            <p id="modalDesc"></p>
+            <button class="btn btn-primary" id="modalBuyBtn">
+              Comprar Agora
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal-overlay" id="paymentModal">
+      <div class="modal" style="max-width: 420px">
+        <button class="modal-close" id="closePaymentModal">&times;</button>
+        <div class="payment-form">
+          <h2 id="payTitle">Finalizar Compra</h2>
+          <div class="price-tag" id="payPrice"></div>
+          <div class="form-group">
+            <label>Nome completo</label>
+            <input type="text" id="payName" placeholder="Seu nome" />
+          </div>
+          <div class="form-group">
+            <label>E-mail</label>
+            <input type="email" id="payEmail" placeholder="voce@email.com" />
+          </div>
+          <div class="form-group">
+            <label>Número do cartão (demo)</label>
+            <input
+              type="text"
+              id="payCard"
+              placeholder="4242 4242 4242 4242"
+              maxlength="19"
+            />
+          </div>
+          <div style="display: flex; gap: 0.75rem">
+            <div class="form-group" style="flex: 1">
+              <label>Validade</label>
+              <input type="text" placeholder="MM/AA" maxlength="5" />
+            </div>
+            <div class="form-group" style="flex: 1">
+              <label>CVV</label>
+              <input type="text" placeholder="123" maxlength="4" />
+            </div>
+          </div>
+          <div class="payment-actions">
+            <button class="btn btn-primary" id="payCardBtn">
+              Pagar com Cartão
+            </button>
+            <button class="btn btn-crypto" id="payCryptoBtn">
+              Pagar com Crypto
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      // ========== PRODUCT DATA ==========
+      const products = [
+        {
+          id: 1,
+          name: "Moletom Biomech",
+          price: 289,
+          currency: "R$",
+          short:
+            "Tecido preto com veias neon e detalhes tubulares biomechanical.",
+          full: "Moletom premium de alta qualidade com design biomechanical exclusivo. Costuras reforçadas, capuz com estrutura alienígena e padrões de veias neon que reagem à luz. Edição limitada da coleção Xeno Cat.",
+          images: [
+            "images/product-hoodie.jpg",
+            "images/product-case2.jpg",
+            "images/product-crown.jpg",
+            "images/product-blaster.jpg",
+          ],
+        },
+        {
+          id: 2,
+          name: "Capa Facehugger",
+          price: 119,
+          currency: "R$",
+          short:
+            "Capa de silicone 3D com organismo parasita em relevo e acabamento úmido.",
+          full: "Proteção de nível militar com estética alienígena. Silicone macio e detalhado, bordas luminosas em neon e textura úmida hiper-realista. Compatível com a maioria dos smartphones.",
+          images: [
+            "images/product-case1.jpg",
+            "images/product-case2.jpg",
+            "images/product-plush.jpg",
+            "images/product-egg.jpg",
+          ],
+        },
+        {
+          id: 3,
+          name: "Capa Alien Skull",
+          price: 109,
+          currency: "R$",
+          short: "Capa rígida com crânio biomechanical e olhos neon.",
+          full: "Design agressivo com crânio alongado em relevo profundo e olhos que brilham no escuro. Material resistente a impactos com acabamento fosco e detalhes metálicos.",
+          images: [
+            "images/product-case2.jpg",
+            "images/product-case1.jpg",
+            "images/product-figure.jpg",
+            "images/logo-icon.jpg",
+          ],
+        },
+        {
+          id: 4,
+          name: "Lâmpada Ovo Ácido",
+          price: 249,
+          currency: "R$",
+          short:
+            "Luminária LED em formato de ovo biomechanical com núcleo verde.",
+          full: "Luminária de mesa com casca translúcida preta e núcleo interno de LED azul elétrico. Ideal para ambientes dark e setups Web3. Controle de intensidade via toque.",
+          images: [
+            "images/product-lamp.jpg",
+            "images/product-egg.jpg",
+            "images/product-hoodie.jpg",
+            "images/product-watch.jpg",
+          ],
+        },
+        {
+          id: 5,
+          name: "Miniatura Criatura",
+          price: 159,
+          currency: "R$",
+          short:
+            "Figura colecionável de criatura biomechanical em pose de ataque.",
+          full: "Miniatura altamente detalhada em resina e metal. Acabamento metálico com detalhes neon. Base incluída. Edição limitada de 500 unidades numeradas.",
+          images: [
+            "images/product-figure.jpg",
+            "images/product-crown.jpg",
+            "images/product-blaster.jpg",
+            "images/product-poster.jpg",
+          ],
+        },
+        {
+          id: 6,
+          name: "Coroa Rainha",
+          price: 389,
+          currency: "R$",
+          short:
+            "Headpiece biomechanical com tubos, espinhos e LEDs integrados.",
+          full: "Peça de destaque para eventos e cosplay. Estrutura leve em polímero reforçado com tubos metálicos e iluminação neon. Ajustável e confortável para uso prolongado.",
+          images: [
+            "images/product-crown.jpg",
+            "images/product-figure.jpg",
+            "images/product-hoodie.jpg",
+            "images/product-lamp.jpg",
+          ],
+        },
+        {
+          id: 7,
+          name: "Réplica Ovo Alien",
+          price: 199,
+          currency: "R$",
+          short:
+            "Réplica realista de ovo com textura leathery e veias luminosas.",
+          full: "Réplica de alta fidelidade com textura rachada e veias que brilham sob luz negra. Perfeita para colecionadores e ambientação de estúdio.",
+          images: [
+            "images/product-egg.jpg",
+            "images/product-lamp.jpg",
+            "images/product-plush.jpg",
+            "images/product-case1.jpg",
+          ],
+        },
+        {
+          id: 8,
+          name: "Relógio Biomech",
+          price: 549,
+          currency: "R$",
+          short: "Smartwatch com pulseira tubular e interface neon.",
+          full: "Relógio inteligente com design biomechanical exclusivo. Tela AMOLED, monitoramento de saúde, notificações e modo always-on com tema Xeno Cat. Resistente à água.",
+          images: [
+            "images/product-watch.jpg",
+            "images/product-blaster.jpg",
+            "images/product-hoodie.jpg",
+            "images/product-crown.jpg",
+          ],
+        },
+        {
+          id: 9,
+          name: "Pôster NFT Print",
+          price: 89,
+          currency: "R$",
+          short:
+            "Print em edição limitada com arte biomechanical e elementos Web3.",
+          full: "Pôster em papel premium 300g com acabamento fosco. Inclui certificado de autenticidade e QR code que aponta para o NFT correspondente na blockchain. Moldura não inclusa.",
+          images: [
+            "images/product-poster.jpg",
+            "images/logo-icon.jpg",
+            "images/product-figure.jpg",
+            "images/product-case2.jpg",
+          ],
+        },
+        {
+          id: 10,
+          name: "Pelúcia Organismo",
+          price: 139,
+          currency: "R$",
+          short: "Pelúcia macia e detalhada de organismo biomechanical.",
+          full: "Pelúcia premium com bordados neon e texturas contrastantes. Macia o suficiente para abraçar, estranha o suficiente para impressionar. Ideal para fãs de sci-fi horror.",
+          images: [
+            "images/product-plush.jpg",
+            "images/product-case1.jpg",
+            "images/product-egg.jpg",
+            "images/product-lamp.jpg",
+          ],
+        },
+      ];
+
+      // ========== RENDER PRODUCTS ==========
+      const grid = document.getElementById("productsGrid");
+      products.forEach((p) => {
+        const card = document.createElement("article");
+        card.className = "product-card";
+        card.innerHTML = `
+        <div class="product-img-wrap">
+          <img src="${p.images[0]}" alt="${p.name}" loading="lazy" />
+        </div>
+        <div class="product-body">
+          <h3>${p.name}</h3>
+          <div class="product-price">${p.currency} ${p.price.toFixed(2).replace(".", ",")}</div>
+          <p class="product-desc">${p.short}</p>
+          <div class="product-actions">
+            <button class="btn" data-id="${p.id}" data-action="details">Detalhes</button>
+            <button class="btn btn-primary" data-id="${p.id}" data-action="buy">Comprar</button>
+          </div>
+        </div>
+      `;
+        grid.appendChild(card);
+      });
+
+      // ========== MODAL LOGIC ==========
+      let currentProduct = null;
+
+      function openProductModal(id) {
+        currentProduct = products.find((p) => p.id === id);
+        if (!currentProduct) return;
+
+        document.getElementById("modalTitle").textContent = currentProduct.name;
+        document.getElementById("modalPrice").textContent =
+          `${currentProduct.currency} ${currentProduct.price.toFixed(2).replace(".", ",")}`;
+        document.getElementById("modalDesc").textContent = currentProduct.full;
+        document.getElementById("modalMainImg").src = currentProduct.images[0];
+        document.getElementById("modalMainImg").alt = currentProduct.name;
+
+        const thumbs = document.getElementById("modalThumbs");
+        thumbs.innerHTML = "";
+        currentProduct.images.forEach((src, i) => {
+          const img = document.createElement("img");
+          img.src = src;
+          img.alt = `Vista ${i + 1}`;
+          if (i === 0) img.classList.add("active");
+          img.addEventListener("click", () => {
+            document.getElementById("modalMainImg").src = src;
+            thumbs
+              .querySelectorAll("img")
+              .forEach((t) => t.classList.remove("active"));
+            img.classList.add("active");
+          });
+          thumbs.appendChild(img);
+        });
+
+        document.getElementById("productModal").classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeProductModal() {
+        document.getElementById("productModal").classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      function openPaymentModal(product) {
+        document.getElementById("payTitle").textContent =
+          `Comprar: ${product.name}`;
+        document.getElementById("payPrice").textContent =
+          `${product.currency} ${product.price.toFixed(2).replace(".", ",")}`;
+        document.getElementById("paymentModal").classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closePaymentModal() {
+        document.getElementById("paymentModal").classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      // Event delegation for cards
+      grid.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-id]");
+        if (!btn) return;
+        const id = parseInt(btn.dataset.id);
+        const action = btn.dataset.action;
+        if (action === "details") openProductModal(id);
+        if (action === "buy") {
+          const p = products.find((x) => x.id === id);
+          openPaymentModal(p);
+        }
+      });
+
+      document.getElementById("modalBuyBtn").addEventListener("click", () => {
+        closeProductModal();
+        if (currentProduct) openPaymentModal(currentProduct);
+      });
+
+      document
+        .getElementById("closeProductModal")
+        .addEventListener("click", closeProductModal);
+      document
+        .getElementById("closePaymentModal")
+        .addEventListener("click", closePaymentModal);
+
+      // Close on overlay click
+      document.getElementById("productModal").addEventListener("click", (e) => {
+        if (e.target.id === "productModal") closeProductModal();
+      });
+      document.getElementById("paymentModal").addEventListener("click", (e) => {
+        if (e.target.id === "paymentModal") closePaymentModal();
+      });
+
+      // ========== PAYMENT DEMO ==========
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 3200);
+      }
+
+      document.getElementById("payCardBtn").addEventListener("click", () => {
+        const name = document.getElementById("payName").value.trim();
+        const email = document.getElementById("payEmail").value.trim();
+        if (!name || !email) {
+          showToast("Preencha nome e e-mail para continuar.");
+          return;
+        }
+        closePaymentModal();
+        showToast("Pagamento simulado com sucesso! (demo)");
+      });
+
+      document.getElementById("payCryptoBtn").addEventListener("click", () => {
+        closePaymentModal();
+        showToast("Redirecionando para gateway crypto... (demo)");
+      });
+
+      // ========== PANEL BUY / SELL ==========
+      document.querySelectorAll(".panel-buy").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const nome = btn.dataset.criatura;
+          document.getElementById("payTitle").textContent = "Comprar — " + nome;
+          document.getElementById("payPrice").textContent = "R$ 299,00";
+          document.getElementById("paymentModal").classList.add("active");
+        });
+      });
+      document.querySelectorAll(".panel-sell").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const nome = btn.dataset.criatura;
+          document.getElementById("payTitle").textContent = "Vender — " + nome;
+          document.getElementById("payPrice").textContent = "R$ 249,00";
+          document.getElementById("paymentModal").classList.add("active");
+        });
+      });
+
+      // ========== WALLET MOCK ==========
+      let walletConnected = false;
+      document
+        .getElementById("walletBtn")
+        .addEventListener("click", function () {
+          if (!walletConnected) {
+            this.textContent = "0xA3f...9B2c";
+            this.style.borderColor = "#00b4ff";
+            this.style.color = "#00b4ff";
+            walletConnected = true;
+            showToast("Wallet conectada (simulação)");
+          } else {
+            this.textContent = "Conectar Wallet";
+            this.style.borderColor = "";
+            this.style.color = "";
+            walletConnected = false;
+            showToast("Wallet desconectada");
+          }
+        });
+
+      // ESC to close modals
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeProductModal();
+          closePaymentModal();
+        }
+      });
+
+      // ========== WIN7 FOLDERS ==========
+      document.querySelectorAll(".win7-folder").forEach((folder) => {
+        // Drag
+        let dragging = false,
+          ox = 0,
+          oy = 0;
+        folder.addEventListener("mousedown", (e) => {
+          if (e.target.classList.contains("folder-name")) return;
+          dragging = true;
+          const rect = folder.getBoundingClientRect();
+          ox = e.clientX - rect.left;
+          oy = e.clientY - rect.top;
+          folder.style.transition = "none";
+          e.preventDefault();
+        });
+        document.addEventListener("mousemove", (e) => {
+          if (!dragging) return;
+          folder.style.left = e.clientX - ox + "px";
+          folder.style.top = e.clientY - oy + "px";
+          folder.style.right = "auto";
+          folder.style.bottom = "auto";
+        });
+        document.addEventListener("mouseup", () => {
+          dragging = false;
+          folder.style.transition = "";
+        });
+
+        // Double-click flash
+        folder.addEventListener("dblclick", (e) => {
+          if (e.target.classList.contains("folder-name")) return;
+          folder.classList.add("open");
+          setTimeout(() => folder.classList.remove("open"), 600);
+        });
+      });
+
+      // ========== HERO TEXT ALTERNATION ==========
+      const heroTexts = [
+        "I was born without a map.\nNo tutorial, no mentors, no fame.\nJust an insistent idea and a heart that wouldn't stop.",
+        "beings from another world who have awakened within an earthly body.\nWe own a unique, secret universe that inhabits the unknown within each of us.\nA whole cosmos made up of memories, dreams, fears, silences and lights that no one else can see.",
+      ];
+      let heroIndex = 0;
+      const heroEl = document.getElementById("heroText");
+
+      function setHeroText() {
+        heroEl.classList.add("hidden");
+        setTimeout(() => {
+          heroEl.style.whiteSpace = "pre-line";
+          heroEl.textContent = heroTexts[heroIndex];
+          heroEl.classList.remove("hidden");
+          heroIndex = (heroIndex + 1) % heroTexts.length;
+        }, 1200);
+      }
+
+      setHeroText();
+      setInterval(setHeroText, 6000);
+    </script>
+
+    <!-- Esfera flutuante pela página -->
+    <div
+      id="floating-sphere"
+      style="
+        position: fixed;
+        width: 90px;
+        height: 90px;
+        pointer-events: none;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        filter: drop-shadow(0 0 18px #00b4ff99);
+      "
+    >
+      <model-viewer
+        src="esfther.glb"
+        alt="Esfera"
+        auto-rotate
+        autoplay
+        camera-controls="false"
+        disable-zoom
+        disable-pan
+        style="width: 90px; height: 90px; background: transparent"
+      ></model-viewer>
+    </div>
+
+    <script>
+      (function () {
+        var el = document.getElementById("floating-sphere");
+        var vw = window.innerWidth,
+          vh = window.innerHeight;
+        var size = 90;
+        // Posição e velocidade iniciais
+        var x = Math.random() * (vw - size);
+        var y = Math.random() * (vh - size);
+        var speedX =
+          (Math.random() * 0.4 + 0.2) * (Math.random() < 0.5 ? 1 : -1);
+        var speedY =
+          (Math.random() * 0.4 + 0.2) * (Math.random() < 0.5 ? 1 : -1);
+
+        function animate() {
+          vw = window.innerWidth;
+          vh = window.innerHeight;
+          x += speedX;
+          y += speedY;
+          if (x <= 0) {
+            x = 0;
+            speedX = Math.abs(speedX);
+          }
+          if (x >= vw - size) {
+            x = vw - size;
+            speedX = -Math.abs(speedX);
+          }
+          if (y <= 0) {
+            y = 0;
+            speedY = Math.abs(speedY);
+          }
+          if (y >= vh - size) {
+            y = vh - size;
+            speedY = -Math.abs(speedY);
+          }
+          el.style.transform = "translate(" + x + "px, " + y + "px)";
+          requestAnimationFrame(animate);
+        }
+        el.style.transform = "translate(" + x + "px, " + y + "px)";
+        animate();
+      })();
+    </script>
+
+    <!-- Esfera flutuante 2 -->
+    <div
+      id="floating-sphere-2"
+      style="
+        position: fixed;
+        width: 90px;
+        height: 90px;
+        pointer-events: none;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        filter: drop-shadow(0 0 18px #00b4ff99);
+      "
+    >
+      <model-viewer
+        src="espsol.glb"
+        alt="Esfera Sol"
+        auto-rotate
+        autoplay
+        camera-controls="false"
+        disable-zoom
+        disable-pan
+        style="width: 90px; height: 90px; background: transparent"
+      ></model-viewer>
+    </div>
+
+    <script>
+      (function () {
+        var el = document.getElementById("floating-sphere-2");
+        var vw = window.innerWidth,
+          vh = window.innerHeight;
+        var size = 90;
+        var x = Math.random() * (vw - size);
+        var y = Math.random() * (vh - size);
+        var speedX =
+          (Math.random() * 0.4 + 0.2) * (Math.random() < 0.5 ? 1 : -1);
+        var speedY =
+          (Math.random() * 0.4 + 0.2) * (Math.random() < 0.5 ? 1 : -1);
+
+        function animate() {
+          vw = window.innerWidth;
+          vh = window.innerHeight;
+          x += speedX;
+          y += speedY;
+          if (x <= 0) {
+            x = 0;
+            speedX = Math.abs(speedX);
+          }
+          if (x >= vw - size) {
+            x = vw - size;
+            speedX = -Math.abs(speedX);
+          }
+          if (y <= 0) {
+            y = 0;
+            speedY = Math.abs(speedY);
+          }
+          if (y >= vh - size) {
+            y = vh - size;
+            speedY = -Math.abs(speedY);
+          }
+          el.style.transform = "translate(" + x + "px, " + y + "px)";
+          requestAnimationFrame(animate);
+        }
+        el.style.transform = "translate(" + x + "px, " + y + "px)";
+        animate();
+      })();
+    </script>
+
+    <!-- Esfera flutuante 3 -->
+    <div
+      id="floating-sphere-3"
+      style="
+        position: fixed;
+        width: 90px;
+        height: 90px;
+        pointer-events: none;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        filter: drop-shadow(0 0 18px #00b4ff99);
+      "
+    >
+      <model-viewer
+        src="dcnoed.glb"
+        alt="Esfera DC"
+        auto-rotate
+        autoplay
+        camera-controls="false"
+        disable-zoom
+        disable-pan
+        style="width: 90px; height: 90px; background: transparent"
+      ></model-viewer>
+    </div>
+
+    <script>
+      (function () {
+        var el = document.getElementById("floating-sphere-3");
+        var vw = window.innerWidth,
+          vh = window.innerHeight;
+        var size = 90;
+        var x = Math.random() * (vw - size);
+        var y = Math.random() * (vh - size);
+        var speedX =
+          (Math.random() * 0.4 + 0.2) * (Math.random() < 0.5 ? 1 : -1);
+        var speedY =
+          (Math.random() * 0.4 + 0.2) * (Math.random() < 0.5 ? 1 : -1);
+
+        function animate() {
+          vw = window.innerWidth;
+          vh = window.innerHeight;
+          x += speedX;
+          y += speedY;
+          if (x <= 0) {
+            x = 0;
+            speedX = Math.abs(speedX);
+          }
+          if (x >= vw - size) {
+            x = vw - size;
+            speedX = -Math.abs(speedX);
+          }
+          if (y <= 0) {
+            y = 0;
+            speedY = Math.abs(speedY);
+          }
+          if (y >= vh - size) {
+            y = vh - size;
+            speedY = -Math.abs(speedY);
+          }
+          el.style.transform = "translate(" + x + "px, " + y + "px)";
+          requestAnimationFrame(animate);
+        }
+        el.style.transform = "translate(" + x + "px, " + y + "px)";
+        animate();
+      })();
+    </script>
+  </body>
+</html>
