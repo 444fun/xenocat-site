@@ -1,21 +1,46 @@
-# Arquivos não-web
+# Arquivos nao-web
 **/*.CAP
 **/*.exe
 
-# Excluir todos os GLBs por padrão
-**/*.glb
+# Modelos 3D: o site usa apenas xenocat1.glb, xenocat2.glb e XEBOCAT3.glb.
+# A negacao "!**/arquivo.glb" nao e respeitada pelo Vercel CLI, entao
+# excluimos explicitamente todos os GLBs NAO usados (deixando os 3 passarem).
+**/Meshy_*.glb
+**/323.glb
+**/alienccx.glb
+**/alienperf.glb
+**/cave.glb
+**/critalribi.glb
+**/cz.glb
+**/dcnoed.glb
+**/edelon.glb
+**/elon.glb
+**/elonxxxxx.glb
+**/esfedc.glb
+**/esfther.glb
+**/espsol.glb
+**/laotik.glb
+**/NOITEALIEN.glb
+**/ribimediev.glb
+**/rob.glb
+**/robi.glb
+**/s2.glb
+**/S3.glb
+**/s4.glb
+**/sa.glb
+**/satof.glb
+**/satos.glb
+**/STA1.glb
+**/toly.glb
+**/TRTR.glb
+**/trumalie.glb
+**/URSONY.glb
 
-# Re-incluir apenas os 3 modelos usados pelo site principal
-# (padrão independente do nome da pasta, que contém espaço/acento)
-!**/xenocat1.glb
-!**/xenocat2.glb
-!**/XEBOCAT3.glb
-
-# Imagens não relacionadas ao site
+# Imagens nao relacionadas ao site
 images/TUF-GAMING-B550-PRO-ASUS-3636/
 images/TUF-GAMING-B550-PRO-ASUS-3636.zip
 images/(1) Grok _ X.html
 images/(1) Grok _ X_files/
 
-# Pasta com repositório git embutido
+# Pasta com repositorio git embutido
 animação 3d/XANO CAT/
