@@ -6,9 +6,10 @@
 **/*.glb
 
 # Re-incluir apenas os 3 modelos usados pelo site principal
-!animação 3d/xenocat1.glb
-!animação 3d/xenocat2.glb
-!animação 3d/XEBOCAT3.glb
+# (padrão independente do nome da pasta, que contém espaço/acento)
+!**/xenocat1.glb
+!**/xenocat2.glb
+!**/XEBOCAT3.glb
 
 # Imagens não relacionadas ao site
 images/TUF-GAMING-B550-PRO-ASUS-3636/
