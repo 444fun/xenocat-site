@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
@@ -861,6 +861,12 @@
       @media (max-width: 720px) {
         nav {
           display: none;
+        }
+        /* No mobile o menu (nav) fica oculto, entao o link que abre a
+           secao Diversao nao fica acessivel. Revelamos o jogo por padrao
+           para que ele apareca na versao mobile. */
+        #diversao {
+          display: block;
         }
         .logo-text h1 {
           font-size: 1.1rem;
