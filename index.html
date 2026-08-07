@@ -321,11 +321,69 @@
       }
       #diversao.open {
         display: block;
-        animation: sectionReveal 0.5s ease forwards;
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        background: #05030a;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        animation: sectionReveal 0.4s ease forwards;
       }
       @keyframes sectionReveal {
         from { opacity: 0; transform: translateY(24px); }
         to   { opacity: 1; transform: translateY(0); }
+      }
+      .diversao-topbar {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.7rem 1rem;
+        background: rgba(5, 3, 10, 0.92);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(255, 179, 71, 0.25);
+      }
+      .diversao-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: rgba(255, 179, 71, 0.12);
+        border: 1px solid rgba(255, 179, 71, 0.5);
+        color: #ffd180;
+        font-weight: 700;
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+      .diversao-back:hover {
+        background: rgba(255, 179, 71, 0.24);
+        border-color: #ffb347;
+        box-shadow: 0 0 16px rgba(255, 179, 71, 0.4);
+        color: #ffe0a8;
+      }
+      .diversao-inner {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 1.5rem 1.5rem 3rem;
+        text-align: center;
+      }
+      .btn-fun-panel {
+        background: rgba(255, 179, 71, 0.12) !important;
+        border: 1px solid rgba(255, 179, 71, 0.5) !important;
+        color: #ffd180 !important;
+        font-weight: 700;
+      }
+      .btn-fun-panel:hover {
+        background: rgba(255, 179, 71, 0.24) !important;
+        border-color: #ffb347 !important;
+        box-shadow: 0 0 16px rgba(255, 179, 71, 0.45) !important;
+        color: #ffe0a8 !important;
       }
 
       .btn {
@@ -862,12 +920,8 @@
         nav {
           display: none;
         }
-        /* No mobile o menu (nav) fica oculto, entao o link que abre a
-           secao Diversao nao fica acessivel. Revelamos o jogo por padrao
-           para que ele apareca na versao mobile. */
-        #diversao {
-          display: block;
-        }
+        /* O jogo (#diversao) fica OCULTO da pagina principal e abre em
+           overlay de tela cheia ao clicar no painel "Diversao Xeno". */
         .logo-text h1 {
           font-size: 1.1rem;
         }
@@ -2777,14 +2831,7 @@
           <a
             href="#diversao"
             class="nav-fun"
-            onclick="
-              var s = document.getElementById('diversao');
-              s.classList.add('open');
-              setTimeout(function () {
-                s.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }, 60);
-              return false;
-            "
+            onclick="openDiversao(); return false;"
             >🎮 Divers&atilde;o</a
           >
         </nav>
@@ -2872,6 +2919,12 @@
             rel="noopener noreferrer"
             class="btn"
             >Solscan</a
+          >
+          <a
+            href="#diversao"
+            class="btn btn-fun-panel"
+            onclick="openDiversao(); return false;"
+            >&#127918; Divers&atilde;o Xeno</a
           >
         </div>
       </div>
@@ -4081,15 +4134,13 @@
     </section>
 
     <!-- Diversão -->
-    <section
-      id="diversao"
-      style="
-        padding: 5rem 1.5rem 4rem;
-        text-align: center;
-        max-width: 800px;
-        margin: 0 auto;
-      "
-    >
+    <section id="diversao">
+      <div class="diversao-topbar">
+        <button type="button" class="diversao-back" onclick="closeDiversao()">
+          &#8592; Voltar &agrave; p&aacute;gina principal
+        </button>
+      </div>
+      <div class="diversao-inner">
       <h2
         style="
           font-size: clamp(1.6rem, 4vw, 2.4rem);
@@ -4131,6 +4182,7 @@
           loading="lazy"
           allow="fullscreen"
         ></iframe>
+      </div>
       </div>
     </section>
 
@@ -5055,5 +5107,29 @@
       })();
     </script>
     <!-- ===== FIM XENO CAT IA ===== -->
+    <script>
+      // Abre o jogo em overlay de tela cheia (mesma aba, sem nova janela)
+      function openDiversao() {
+        var s = document.getElementById("diversao");
+        if (!s) return;
+        s.classList.add("open");
+        document.body.style.overflow = "hidden";
+        s.scrollTop = 0;
+      }
+      // Volta para a pagina principal
+      function closeDiversao() {
+        var s = document.getElementById("diversao");
+        if (!s) return;
+        s.classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      // Tecla ESC volta para a pagina principal
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          var s = document.getElementById("diversao");
+          if (s && s.classList.contains("open")) closeDiversao();
+        }
+      });
+    </script>
   </body>
 </html>
